@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Raymel | Sweet Sensations</title>
+
+    <!-- Google Fonts: Albert Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
+    <!-- GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- Google reCAPTCH->: https://www.google.com/recaptcha/admin/site/742576957 -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__logo">
+        <img src="img/logo.svg" alt="Raymel Logo" />
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="header__nav">
+        <ul class="header__nav-list">
+          <li class="header__nav-item"><a href="#" class="header__nav-link">Nosaltres</a></li>
+          <li class="header__nav-item"><a href="#" class="header__nav-link">Productes</a></li>
+          <li class="header__nav-item"><a href="#" class="header__nav-link">Especialitats</a></li>
+          <li class="header__nav-item"><a href="#" class="header__nav-link">Contacte</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Menu Navigation (Checkbox Hack) -->
+      <div class="header__mobile-menu">
+        <input type="checkbox" id="menu-toggle" class="header__checkbox" />
+        <div class="header__mobile-container">
+          <label class="header__hamburger" for="menu-toggle" aria-label="Abrir menú">
+            <span class="header__hamburger-line"></span>
+            <span class="header__hamburger-line"></span>
+            <span class="header__hamburger-line"></span>
+          </label>
+
+          <div class="header__menu-modal">
+            <div class="header__menu-bg header__menu-bg--left"></div>
+            <div class="header__menu-bg header__menu-bg--right">
+              <nav class="header__mobile-links">
+                <a href="#" class="header__mobile-link">Nosaltres</a>
+                <a href="#" class="header__mobile-link">Productes</a>
+                <a href="#" class="header__mobile-link">Especialitats</a>
+                <a href="#" class="header__mobile-link">Contacte</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="hero__img">
+          <img src="img/svg/icone principal.svg" alt="Icone Raymel" class="imgHeroBlanc" />
+        </div>
+        <div class="hero__content">
+          <h1 class="hero__title">Sweet Sensations</h1>
+        </div>
+      </section>
+      <section class="plaer">
+        <div class="plaer__content">
+          <h2 class="plaer__title">Regala't un moment de plaer</h2>
+        </div>
+      </section>
+      <section class="productes">
+        <div class="productes__wrap">
+          <div class="productes__content">
+            <img src="img/apolles.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/fruites.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/fulles.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/guixos pols.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/guixos.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/maduixes.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/ossets.png" alt="Icone Raymel" class="producte1" />
+          </div>
+          <div class="productes__content">
+            <img src="img/perles.png" alt="Icone Raymel" class="producte1" />
+          </div>
+        </div>
+      </section>
+      <section class="especial"></section>
+      <!-- PIE DE PÁGINA -->
+      <footer id="main-footer" class="footer-section">
+        <div class="footer__content">
+          <div class="footer__nav">
+            <ul class="footer__nav-list">
+              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Nosaltres</a></li>
+              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Productes</a></li>
+              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Especialitats</a></li>
+              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Contacte</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
