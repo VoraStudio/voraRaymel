@@ -17,34 +17,63 @@ tl.from(".imgHeroBlanc", {
   rotation: 360,
 });
 
-// 2. Definición de la animación de fondo
-gsap.to("body", {
-  backgroundColor: "#39286c", // Representa --fons-violeta
+//El núbol sen va per el top ->
+gsap.to(".hero__img", {
+  yPercent: -50,
+  opacity: 0,
+  duration: 3,
+  ease: "power1.inOut",
+  scrollTrigger: {
+    trigger: ".hero__content",
+    scrub: 1,
+    start: "top top",
+    end: "bottom top",
+    invalidateOnRefresh: true,
+  },
+});
+// Animació de degradat del titol del Hero ->
+gsap.to(".hero__title", {
+  "--fons-deg": "#a197c5",
+  scrollTrigger: {
+    trigger: ".hero__content",
+    scrub: 1,
+    start: "top 20%",
+    end: "bottom top",
+    invalidateOnRefresh: true,
+  },
+});
+
+// Animació logo blanc - Negre
+const tlBody = gsap.timeline({
   scrollTrigger: {
     trigger: ".hero",
     start: "center 50%",
     end: "bottom top",
-    scrub: 1, // Suavizado de 1 segundo para la transición
-    markers: false, // Cambiar a true para depuración
+    scrub: 1,
   },
 });
+tlBody
+  .to("body", { backgroundColor: "#39286c" })
+  .to(".logo-dark", { opacity: 0 }, "<")
+  .to(".logo-white", { opacity: 1 })
+  .to(".header", { backgroundColor: "#39286c", duration: 0.2, delay: 1.5 }, "<");
 
 /* ==========================================================================
    FIN ANIMACIÓN: TRANSICIÓN DE FONDO
    ========================================================================== */
 
+//Scroll Horizontal de productos ->
 let track = document.querySelector(".productes__wrap");
 gsap.to(track, {
-  // Movemos el track hacia la izquierda
-  // Calculamos: (Ancho total del track - Ancho de 1 pantalla)
   x: () => -(track.scrollWidth - window.innerWidth),
   ease: "none",
   scrollTrigger: {
     trigger: ".productes",
-    pin: true, // Bloquea la pantalla mientras ocurre la animación
-    scrub: 1, // El movimiento sigue al dedo/ratón
-    start: "top top",
-    end: () => "+=" + track.scrollWidth, // La duración del scroll depende del ancho de la galería
-    invalidateOnRefresh: true, // Recalcula si cambias el tamaño de la ventana
+    pin: true,
+    scrub: 1,
+    start: "top 5%",
+    end: () => "+=" + track.scrollWidth,
+    invalidateOnRefresh: true,
+    markers: false,
   },
 });

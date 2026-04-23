@@ -14,6 +14,7 @@
   --fons-violeta: #39286c;
   --fons-rosa: #ffdddd;
   --bg-main: #f5f5f5;
+  --fons-deg: #5d42a8;
 }
 
 * {
@@ -57,6 +58,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+  height: 70px;
   z-index: 1000;
   display: flex;
   justify-content: space-between;
@@ -65,7 +67,7 @@ body {
   background-color: transparent;
   transition: all 0.3s ease;
   margin-bottom: 5vw;
-  /* border: solid rgb(218, 14, 14) 5px; */
+  /* border: solid rgb(218, 14, 14) 1px; */
 }
 
 .header__logo img {
@@ -278,11 +280,26 @@ body {
 .header__checkbox:checked ~ .header__mobile-container .header__mobile-link:nth-child(5) {
   transition: opacity 0.5s 1.6s;
 }
+.header__logo img {
+  position: absolute;
+  transition: opacity 0.3s ease;
+  transform: translateY(-50%);
+}
+
+.logo-dark {
+  opacity: 1;
+  /* border: solid red 2px; Empieza invisible */
+}
+
+.logo-white {
+  opacity: 0;
+}
 
 /* Media Queries para Desktop */
 @media (min-width: 1024px) {
   .header__nav {
     display: block;
+    /* border: solid black 2px; */
   }
 
   .header__nav-list {
@@ -308,6 +325,10 @@ body {
   .header__mobile-menu {
     display: none;
   }
+
+  header {
+    /* border: solid orange 2px; */
+  }
 }
 
 /* ==========================================================================
@@ -317,9 +338,9 @@ body {
   height: 100svh;
   width: 100vw;
   display: flex;
-  position: relative; /* CRUCIAL para que el icono absoluto se centre referenciado a esto */
-  justify-content: flex-start;
-  align-items: center;
+  position: relative;
+  justify-content: center; /* Centrado horizontal */
+  align-items: flex-end; /* Centrado vertical */
   overflow: hidden;
   border: solid black 2px;
 }
@@ -329,37 +350,37 @@ body {
   z-index: 2;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   padding: 0 5vw;
+  /* border: solid red 1px; */
+  padding-bottom: 200px;
 }
 .hero__title {
   font-size: clamp(4rem, 8vw, 8rem);
-  font-weight: 800;
-  color: var(--fons-violeta);
+  font-weight: 900;
+  background: linear-gradient(95deg, var(--fons-violeta) 0%, var(--fons-deg) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   text-align: center;
   line-height: 1;
-  letter-spacing: -2px;
+  letter-spacing: -7%;
   text-transform: uppercase;
   margin: 0;
-  word-wrap: break-word; /* Si es muy largo, saltará de línea */
-}
-/* Media Query para Móviles / Tablets (Desktop First approach) */
-@media (max-width: 1023px) {
-  .hero__title {
-    font-size: clamp(3rem, 12vw, 5rem); /* Reducido para evitar que "SENSATIONS" rompa la caja */
-  }
+  word-wrap: break-word;
+  padding: 10px;
 }
 
 .hero__img {
   width: 90vw;
-  max-width: 350px;
+  max-width: 450px;
   aspect-ratio: 1 / 1;
   height: auto;
   object-fit: contain;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -20%);
   z-index: 1;
   pointer-events: none;
 }
@@ -372,6 +393,31 @@ body {
   color: var(--color-secondary);
   height: 150px;
   /* border: solid rgb(218, 14, 14) 5px; */
+}
+
+/* Media Query para Móviles / Tablets (Desktop First approach) */
+@media (max-width: 800px) {
+  .hero__content {
+    padding-top: 150px; /* Espacio para el header fijo */
+  }
+
+  .hero__title {
+    font-size: clamp(3rem, calc(10vw + 1rem), 8rem);
+  }
+
+  .hero__img {
+    width: 50vw;
+    min-width: 250px;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -20%); /* Centrado perfecto */
+    z-index: 1;
+    pointer-events: none;
+  }
 }
 
 /* ==========================================================================
@@ -393,13 +439,14 @@ body {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centrado vertical absoluto */
+  justify-content: flex-end; /* Centrado vertical absoluto */
   align-items: center;
-  padding: 5vw;
+  padding: 80px 5rem;
+  padding-bottom: 80px;
 }
 
 .plaer__title {
-  font-size: clamp(5rem, 15vw, 8rem);
+  font-size: clamp(3rem, calc(8vw + 1rem), 6rem);
   font-weight: 700;
   color: var(--color-secondary);
   text-align: center;
@@ -419,7 +466,7 @@ footer {
   text-align: center;
   color: var(--color-secondary);
   height: 150px;
-  border: solid rgb(218, 14, 14) 5px;
+  /* border: solid rgb(218, 14, 14) 5px; */
 }
 
 .footer__content {
@@ -469,7 +516,7 @@ footer {
 .productes {
   height: 100svh;
   width: 100%;
-  background-color: var(--color-secondary);
+  background-color: var(--fons-clar);
   overflow: hidden;
 }
 
@@ -484,23 +531,62 @@ footer {
 
 .productes__content {
   flex: 0 0 25vw;
-  width: 100%;
-  height: 100%;
+  height: 85%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid red 2px;
 }
 
-.productes__content img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
+.productes__content a {
+  flex: 0 0 25vw;
+  height: 85%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* border: solid red 2px; */
+  /* background-color: #000; */
 }
 
-@media (max-width: 768px) {
-  .productes__content {
-    flex: 0 0 80vw; /* En móvil casi ocupa toda la pantalla */
+.productes__content a img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+  /* border: solid blue 1px; */
+}
+.productes__content a:hover img {
+  transform: translateY(-20px) scale(1.05) rotate(5deg) rotateY(5deg); /* El producto "flota" hacia arriba */
+  filter: drop-shadow(0 10px 5px rgba(0, 0, 0, 0.5)); /* Sombra más intensa al alejarse del suelo */
+}
+
+.productes__content:nth-child(odd) {
+  transform: translateY(-10%);
+}
+.productes__content:nth-child(even) {
+  transform: translateY(10%);
+}
+
+@media (max-width: 800px) {
+  .productes__content a {
+    flex: 0 0 60vw;
+  }
+
+  .productes__content a {
+    width: 30%;
+    height: 100%;
+    /* border: solid orange 2px; */
+  }
+
+  .productes__content a img {
+    width: 70%;
+    height: 100%;
+    object-fit: cover;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    /* border: solid blue 1px; */
   }
 }
 
