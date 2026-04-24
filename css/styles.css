@@ -15,6 +15,10 @@
   --fons-rosa: #ffdddd;
   --bg-main: #f5f5f5;
   --fons-deg: #5d42a8;
+  --fons-violeta-hover: #39286c;
+  --fons-clar-hover: #b4a8db;
+  --porcenatge-titol-Hero: 20%;
+  --porcenatge2-titol-Hero: 100%;
 }
 
 * {
@@ -70,10 +74,15 @@ body {
   /* border: git add . rgb(218, 14, 14) 1px; */
 }
 
+.header__logo {
+  z-index: 9999;
+}
+
 .header__logo img {
-  height: clamp(30px, 5vw, 45px);
+  height: clamp(35px, 5vw, 45px);
   width: auto;
   object-fit: contain;
+  z-index: 9999 !important;
 }
 
 .header__nav {
@@ -87,13 +96,12 @@ body {
 .header__nav-list a {
   color: var(--color-secondary);
   text-decoration: none;
-  font-size: clamp(16px, 2vw, 24px);
+  font-size: clamp(1rem, 1rem 2rem);
   font-weight: 300;
 }
 
 /* ==========================================================================
-   MENÚ HAMBURGUESA (ESTILO ESPECÍFICO REVELACIÓN)
-   Descripción: Implementación exacta de la animación de paneles divididos.
+   MENÚ HAMBURGUESA 
    ========================================================================== */
 
 .header__checkbox {
@@ -130,6 +138,21 @@ body {
   align-self: flex-end;
 }
 
+.hero__title div {
+  background: linear-gradient(
+    180deg,
+    var(--fons-violeta) var(--porcenatge-titol-Hero),
+    var(--fons-clar) var(--porcenatge2-titol-Hero)
+  );
+  background-size: 200% auto;
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  display: inline-block;
+  padding: 0;
+}
+
 /* Modal and Panels - Exact same logic as original */
 .header__menu-modal {
   position: fixed;
@@ -163,7 +186,6 @@ body {
 .header__menu-bg--right {
   right: 50%;
   transform: translateX(50%);
-  z-index: 1001;
 }
 
 /* Open State Animation */
@@ -231,9 +253,13 @@ body {
 .header__mobile-links a {
   color: var(--color-secondary);
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size: 1.7rem;
   font-weight: 400;
   margin-bottom: 10px;
+}
+
+.header__mobile-links a:hover {
+  color: var(--fons-clar-hover);
 }
 
 /* Estado Inicial / Salida (Exit Animation - Reverse Stagger) */
@@ -309,17 +335,17 @@ body {
   }
 
   .header__nav-link {
-    font-size: clamp(0.8rem, 1.1rem, 1.5rem) !important;
-    font-weight: 600;
+    font-size: clamp(0.8rem, 1.2rem, 1.7rem) !important;
+    font-weight: 800;
     letter-spacing: 1px;
     color: var(--color-primary);
     display: inline-block;
   }
 
   .header__nav-link:hover {
-    color: var(--fons-violeta);
-    transform: rotate(-1deg);
+    color: var(--nav-hover, var(--fons-violeta-hover));
     transition: all 0.3s ease;
+    transform: translateY(-2px);
   }
 
   .header__mobile-menu {
@@ -353,27 +379,25 @@ body {
   align-items: flex-end;
   padding: 0 5vw;
   /* border: solid red 1px; */
-  padding-bottom: 200px;
+  padding-bottom: 120px;
 }
 .hero__title {
   font-size: clamp(4rem, 8vw, 8rem);
   font-weight: 900;
-  background: linear-gradient(95deg, var(--fons-violeta) 0%, var(--fons-deg) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   text-align: center;
+  background: none;
   line-height: 1;
   letter-spacing: -7%;
   text-transform: uppercase;
   margin: 0;
   word-wrap: break-word;
   padding: 10px;
+  will-change: transform, opacity, filter;
 }
 
 .hero__img {
   width: 90vw;
-  max-width: 450px;
+  max-width: 350px;
   aspect-ratio: 1 / 1;
   height: auto;
   object-fit: contain;
@@ -383,6 +407,8 @@ body {
   transform: translate(-50%, -20%);
   z-index: 1;
   pointer-events: none;
+  filter: blur(1px);
+  will-change: transform, opacity, filter;
 }
 
 /* PIE DE PÁGINA */
@@ -402,7 +428,16 @@ body {
   }
 
   .hero__title {
-    font-size: clamp(3rem, calc(10vw + 1rem), 8rem);
+    font-size: clamp(3rem, 5rem, 8rem);
+    white-space: normal !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+  }
+
+  .hero__title div {
+    display: inline-block;
+    white-space: nowrap; /* Mantiene las letras de la palabra juntas */
   }
 
   .hero__img {
@@ -417,6 +452,7 @@ body {
     transform: translate(-50%, -20%); /* Centrado perfecto */
     z-index: 1;
     pointer-events: none;
+    filter: blur(0.5px);
   }
 }
 
@@ -443,6 +479,8 @@ body {
   align-items: center;
   padding: 80px 5rem;
   padding-bottom: 80px;
+  overflow: hidden;
+  /* border: solid red 2px; */
 }
 
 .plaer__title {
