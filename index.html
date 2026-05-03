@@ -1,9 +1,23 @@
+<!-- 
+ <?php
+require_once __DIR__ . '/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Generem un token CSRF basat en el secret del .env i la data del dia
+// Això ens permet validar-lo sense dependre de la sessió de PHP
+$csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
+?>
+ -->
+
 <!doctype html>
 <html lang="ca">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Raymel | Sweet Sensations</title>
+    <title>Raymel | Sweet Sensations - Seleccionadors de Plaer</title>
+    <meta name="description" content="Raymel: Seleccionadors de llaminadures premium d'Europa. Descobreix moments de plaer amb els nostres dolços exclusius per a paladars exigents." />
+    <meta name="keywords" content="llaminadures, dolços, Raymel, sweet sensations, gourmet sweets" />
 
     <!-- Google Fonts: Albert Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,114 +27,417 @@
       rel="stylesheet"
     />
 
-    <!-- GSAP Libraries -->
+    <!-- Biblioteques GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>
+    
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+
     <!-- CSS Principal -->
     <link rel="stylesheet" href="css/styles.css" />
 
+    <!-- Google reCAPTCHA -->
     <!-- Google reCAPTCH->: https://www.google.com/recaptcha/admin/site/742576957 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <header class="header">
       <div class="header__logo">
-        <img src="img/icones svg/logo.svg" alt="Raymel Logo" class="logo-dark" />
-        <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" class="logo-white" />
+        <img src="img/icones svg/logo.svg" alt="Raymel Logo" class="logo-dark" width="120" height="40" />
+        <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" class="logo-white" width="120" height="40" />
       </div>
 
-      <!-- Desktop Navigation -->
+      <!-- Navegació Desktop -->
       <nav class="header__nav">
         <ul class="header__nav-list">
-          <li class="header__nav-item"><a href="#" class="header__nav-link">Nosaltres</a></li>
-          <li class="header__nav-item"><a href="#" class="header__nav-link">Productes</a></li>
-          <li class="header__nav-item"><a href="#" class="header__nav-link">Especialitats</a></li>
-          <li class="header__nav-item"><a href="#" class="header__nav-link">Contacte</a></li>
+          <li class="header__nav-item"><a href="#nosaltres" id="nav-nosaltres" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
+          <li class="header__nav-item"><a href="#productes" id="nav-productes" class="header__nav-link" data-text="Productes">Productes</a></li>
+          <li class="header__nav-item"><a href="#especial" id="nav-especialitats" class="header__nav-link" data-text="Especialitats">Especialitats</a></li>
+          <li class="header__nav-item"><a href="#contacte" id="nav-contacte" class="header__nav-link" data-text="Contacte">Contacte</a></li>
         </ul>
       </nav>
 
-      <!-- Mobile Menu Navigation (Checkbox Hack) -->
+      <!-- Menú Mòbil -->
       <div class="header__mobile-menu">
         <input type="checkbox" id="menu-toggle" class="header__checkbox" />
-        <div class="header__mobile-container">
-          <label class="header__hamburger" for="menu-toggle" aria-label="Abrir menú">
-            <span class="header__hamburger-line"></span>
-            <span class="header__hamburger-line"></span>
-            <span class="header__hamburger-line"></span>
-          </label>
-
-          <div class="header__menu-modal">
-            <div class="header__menu-bg header__menu-bg--left"></div>
-            <div class="header__menu-bg header__menu-bg--right">
-              <nav class="header__mobile-links">
-                <a href="#" class="header__mobile-link">Nosaltres</a>
-                <a href="#" class="header__mobile-link">Productes</a>
-                <a href="#" class="header__mobile-link">Especialitats</a>
-                <a href="#" class="header__mobile-link">Contacte</a>
-              </nav>
-            </div>
-          </div>
+        <label for="menu-toggle" class="header__menu-btn" id="menu-btn" aria-label="Obrir menú">
+          <span class="header__menu-line"></span>
+          <span class="header__menu-line"></span>
+          <span class="header__menu-line"></span>
+        </label>
+        <div class="header__menu-overlay">
+          <nav class="header__menu-nav">
+            <a href="#nosaltres" class="header__menu-link" data-text="Nosaltres" onclick="document.getElementById('menu-toggle').checked = false">Nosaltres</a>
+            <a href="#productes" class="header__menu-link" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
+            <a href="#especial" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
+            <a href="#contacte" class="header__menu-link" data-text="Contacte" onclick="document.getElementById('menu-toggle').checked = false">Contacte</a>
+          </nav>
         </div>
       </div>
     </header>
+
+    <div class="global-particles" id="particles"></div>
+
     <main>
+
+      <!-- SECCIÓ HERO -->
       <section class="hero">
-        <div class="hero__img">
-          <img src="img/icones svg/icone principal.svg" alt="Icone Raymel" class="imgHeroBlanc" />
+        <div class="hero__bg">
+          <div class="hero__gradient-overlay"></div>
         </div>
+
         <div class="hero__content">
           <h1 class="hero__title">Sweet Sensations</h1>
         </div>
-      </section>
-      <!-- PLAER -->
-      <section class="plaer">
-        <div class="plaer__content">
-          <h2 class="plaer__title">Regala't un moment de plaer</h2>
+
+        <div class="hero__visual">
+          <div class="hero__img-wrapper">
+            <img src="img/icones svg/icone principal.svg" alt="Icone Raymel" class="hero__img" width="450" height="450" />
+          </div>
+        </div>
+
+        <div class="hero__scroll-indicator">
+          <span>Scroll per explorar</span>
+          <div class="hero__scroll-line"></div>
         </div>
       </section>
-      <!-- PRODUCTES -->
-      <section class="productes">
+
+      <!-- SECCIÓ PLAER -->
+      <section class="plaer" id="nosaltres">
+        <div class="plaer__content">
+          <!-- Contenidor de l'animació Morph -->
+          <div class="plaer__morph-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class="plaer__svg" id="morph-svg">
+              <path id="maduixa" class="plaer__path" d="M 175.653 360.232 C 253.409 337.453 246.733 344.554 272.746 332.201 C 300.978 318.792 315.119 312.116 324.935 300.684 C 346.216 275.9 353.659 239.673 345.63 207.659 C 340.78 188.311 331.288 174.5 325.002 166.739 C 325.17 166.242 325.337 165.745 325.5 165.253 C 328.824 166.979 332.148 168.706 335.473 170.432 C 336.389 169.466 337.467 167.98 337.545 166.13 C 337.73 161.862 332.461 158.56 327.064 155.269 C 323.22 152.928 317.404 149.866 309.604 147.492 C 306.777 143.123 303.201 138.284 298.698 133.356 C 291.066 125.009 283.261 119.126 276.869 115.075 C 276.523 115.193 274.02 116.081 272.992 118.768 C 272.087 121.132 272.981 123.199 273.154 123.59 C 276.875 127.412 280.602 131.233 284.323 135.055 C 276.841 130.641 262.281 123.394 242.609 121.987 C 235.989 121.512 214.635 120.26 192.716 132.183 C 172.262 143.312 162.149 160.018 155.724 170.952 C 123.665 225.488 131.119 300.925 133.398 320.155 C 133.32 327.771 133.817 352.834 148.869 361.003 C 157.412 365.64 166.898 362.796 175.648 360.232 L 175.653 360.232 Z" fill="currentColor"></path>
+              
+              <!-- Camins ocults per al Morphing -->
+              <path id="ossets" class="plaer__path-hidden" d="M 230.386 121.204 C 229.374 118.707 225.847 110.987 216.484 105.399 C 209.979 101.513 203.687 100.458 200.497 100.118 C 196.324 99.843 188.151 99.85 180.347 103.806 C 171.56 108.26 168.152 114.982 167.111 117.331 C 163.027 126.229 157.648 141.451 158.302 161.193 C 158.885 178.752 164.01 192.982 168.123 201.962 C 163.127 206.52 156.081 214.176 151.21 225.283 C 147.355 234.058 146.16 242.048 145.845 247.821 C 145.409 252.2 145.294 260.278 149.3 269.797 C 153.041 278.676 158.692 284.866 162.225 288.22 C 157.623 291.574 149.604 298.405 144.515 309.53 C 140.123 319.119 139.783 327.819 140.041 332.997 C 140.141 336.691 140.878 342.855 144.608 349.794 C 147.093 354.41 150.116 357.917 152.54 360.318 C 154.94 362.494 160.012 366.559 167.794 369.075 C 174.428 371.219 180.111 371.309 183.323 371.149 C 188.913 371.52 197.268 371.488 206.663 369.152 C 219.403 365.983 227.757 360.139 232.078 356.579 C 235.679 360.657 243.322 368.204 255.46 372.532 C 274.645 379.381 291.168 373.229 295.714 371.456 C 303.471 368.428 317.734 362.872 322.484 349.173 C 325.445 340.608 323.385 332.651 322.18 327.991 C 318.846 315.118 310.928 307.193 307.194 303.903 C 320.459 291.139 323.192 278.516 323.936 272.818 C 326.207 255.234 317.802 239.25 311.894 228.016 C 309.451 223.368 307.087 219.617 305.352 217.025 C 304.941 214.131 304.751 210.24 305.581 205.81 C 306.736 199.665 309.372 195.1 311.375 192.271 C 314.569 185.383 318.378 174.629 318.743 160.885 C 319.047 149.446 316.854 139.793 314.673 132.957 C 312.305 128.949 308.718 123.86 303.36 118.617 C 299.662 114.995 295.975 112.146 292.749 109.95 C 290.438 108.632 285.56 106.193 278.947 105.61 C 273.972 105.169 270.038 105.956 267.713 106.596 C 265.281 107.454 261.383 109.144 257.732 112.408 C 254.026 115.724 252.209 119.2 251.319 121.345 C 250.711 121.85 245.418 126.107 237.997 124.724 C 234.202 124.02 231.584 122.164 230.379 121.197 L 230.386 121.204 Z" fill="currentColor"></path>
+              <path id="icone" class="plaer__path-hidden" d="M 114.814 194.05 C 108.918 172.038 116.459 149.018 133.756 135.861 C 155.053 119.653 180.471 126.524 183.177 127.311 C 191.65 110.452 208.802 99.437 227.843 98.632 C 246.745 97.835 264.684 107.206 274.649 123.088 C 276.8 122.695 306.369 117.758 327.766 139.808 C 350.232 162.95 342.207 193.668 341.787 195.169 C 345.511 197.176 361.226 206.164 366.686 224.851 C 370.787 238.883 366.851 250.703 364.746 256.727 C 358.739 273.934 346.552 283.693 341.337 287.4 C 342.312 293.114 345.505 315.846 331.102 336.943 C 316.955 357.664 291.268 368.836 264.424 366.353 C 262.369 368.731 249.262 383.355 228.087 383.621 C 209.977 383.849 192.952 373.481 184.013 356.927 C 181.026 357.57 154.676 362.79 133.273 344.647 C 117.296 331.103 110.121 309.667 114.47 288.825 C 113.013 287.894 87.499 270.947 88.286 240.124 C 89.033 210.836 112.868 195.28 114.824 194.056 L 114.808 194.056 L 114.814 194.05 Z" fill="currentColor"></path>
+              <path id="fulles" class="plaer__path-hidden" d="M 96.4 144.395 C 96.4 144.396 96.4 144.397 96.4 144.397 C 96.398 144.396 96.396 144.395 96.394 144.395 L 96.4 144.395 Z M 96.4 144.397 C 108.402 149.731 122.556 157.366 137.311 168.429 C 150.612 178.395 161.273 188.808 169.616 198.166 C 175.628 203.737 184.678 213.67 191.596 229.212 C 198.85 245.51 200.59 260.831 200.998 270.135 C 201.456 275.01 208.347 353.559 183.546 366.313 C 172.542 371.973 159.424 361.941 149.596 354.515 C 142.838 349.408 115.624 327.582 100.231 273.37 C 85.694 222.168 90.757 173.964 96.4 144.397 Z M 284.72 103.379 C 294.26 115.067 304.82 130.245 314.23 149.238 C 322.7 166.353 328.24 182.558 331.94 196.482 C 335.23 205.311 339.36 220.19 338.4 239.718 C 337.39 260.202 331.24 276.815 326.83 286.571 C 324.77 291.811 291.12 375.948 259.08 376.174 C 244.853 376.279 236.599 359.186 230.365 346.476 C 226.081 337.736 209.479 301.241 221.791 237.659 C 233.424 177.605 263.6 130.791 284.72 103.384 L 284.72 103.379 Z" fill="currentColor"></path>
+              <path id="fruites" class="plaer__path-hidden" d="M 189.402 356.033 C 183.505 350.181 182.56 342.485 182.373 340.396 C 183.301 336.293 185.203 329.808 189.436 322.943 C 194.716 314.381 200.986 309.486 202.995 307.862 C 208.852 303.13 221.654 287.969 246.99 257.421 C 291.369 203.913 261.449 169.449 300.82 133.286 C 316.293 127.129 332.829 139.987 335.896 149.664 C 346.841 165.481 365.426 163.45 369.314 186.556 C 370.751 196.8 365.228 202.057 369.178 211.072 C 372.432 218.497 378.68 220.636 377.718 225.831 C 375.12 229.855 372.087 235.939 371.917 243.477 C 371.764 250.234 374.016 253.267 373.524 259.402 C 373.173 263.788 371.408 269.945 364.803 277.087 C 365.505 280.245 365.997 284.93 363.966 289.543 C 361.34 295.507 357.446 294.613 355.03 300.612 C 352.817 306.09 354.747 310.108 350.87 315.654 C 350.401 316.333 349.761 317.244 348.686 318.263 C 345.783 321.008 343.389 321.036 339.116 324.069 C 338.069 324.817 337.537 325.19 336.847 325.852 C 331.912 330.566 333.412 335.824 328.267 341.081 C 327.894 341.466 327.413 341.953 326.677 342.513 C 321.103 346.763 315.562 344.075 311.595 347.997 C 311.403 348.195 311.646 347.974 309.858 350.492 C 305.874 356.112 304.391 357.589 302.484 358.687 C 302.065 358.925 301.347 359.332 300.317 359.683 C 295.297 361.386 292.411 358.494 287.532 359.1 C 285.823 359.309 284.256 360.17 281.121 361.884 C 273.52 366.044 274.047 368.704 270.43 369.117 C 266.576 369.558 264.963 366.649 257.833 366.898 C 257.629 366.91 256.876 366.938 255.869 367.046 C 249.655 367.713 247.431 369.966 239.718 371.601 C 239.022 371.754 238.671 371.828 238.422 371.862 C 231.082 372.914 227.89 366.785 219.033 366.27 C 218.224 366.225 218.547 366.293 216.074 366.248 C 207.936 366.1 206.311 365.393 205.259 364.72 C 203.98 363.899 204.116 363.497 202.633 362.682 C 200.511 361.511 198.57 361.698 197.574 361.313 C 195.055 360.334 192.118 358.715 189.413 356.033 L 189.402 356.033 Z M 245.317 192.327 C 252.697 203.362 252.849 217.476 245.775 227.98 C 237.066 240.917 221.752 241.89 220.117 241.964 C 218.6 252.852 211.203 262.145 200.847 266.163 C 190.57 270.147 178.918 268.341 170.44 261.443 C 169.325 262.065 153.943 270.328 138.001 262.178 C 121.273 253.622 119.937 235.173 119.886 234.262 C 117.453 233.854 107.102 231.839 100.583 222.553 C 95.699 215.581 95.654 208.325 95.682 204.602 C 95.767 193.985 100.662 186.317 102.846 183.289 C 101.239 180.318 95.212 168.377 99.208 154.037 C 103.129 139.951 115.206 128.978 130.48 125.31 C 131.171 123.613 135.659 113.087 147.288 108.972 C 157.237 105.452 168.572 107.982 176.603 115.435 C 178.131 114.518 191.69 106.703 206.897 112.696 C 218.249 117.173 226.229 127.653 227.734 139.968 C 228.713 140.211 245.968 144.773 251.31 161.926 C 256.386 178.224 246.155 191.274 245.306 192.316 L 245.316 192.316 L 245.317 192.327 Z" fill="currentColor"></path>
+              <path id="perles" class="plaer__path-hidden" d="M 209.824 364.287 L 207.09 366.009 C 200.232 366.036 193.13 365.785 185.798 365.202 C 147.294 362.129 114.37 350.693 88.202 337.883 C 84.759 336.074 81.316 334.259 77.872 332.451 L 73.409 327.65 L 86.215 281.843 L 97.225 255.946 L 116.094 223.82 L 143.3 197.792 L 160.718 191.591 L 177.235 193.488 L 184.988 197.318 L 196.865 209.85 L 208.191 241.447 L 211.079 256.594 L 215.906 281.892 L 216.419 296.969 L 209.834 364.282 L 209.824 364.287 Z M 355.485 266.009 L 353.025 267.797 C 346.635 268.282 339.995 268.521 333.135 268.467 C 297.075 268.173 265.794 259.711 240.733 249.522 C 237.428 248.061 234.124 246.607 230.819 245.146 L 226.409 240.967 L 235.982 197.405 L 244.909 172.527 L 260.842 141.317 L 284.863 115.234 L 300.785 108.292 L 316.275 108.957 L 323.705 112.014 L 335.425 122.905 L 347.615 151.604 L 351.095 165.536 L 356.895 188.802 L 358.155 202.821 L 355.485 266.015 L 355.485 266.009 Z M 310.005 357.574 L 308.955 359.242 C 305.395 361.187 301.645 363.056 297.705 364.816 C 277.024 374.057 257.422 377.375 241.03 378.083 C 238.846 378.11 236.662 378.138 234.478 378.165 L 231.116 376.923 L 227.812 349.505 L 227.903 332.946 L 230.724 310.934 L 239.21 289.744 L 246.915 281.62 L 255.914 277.958 L 260.779 277.768 L 269.677 280.939 L 282.435 294.174 L 287.234 301.235 L 295.245 313.026 L 298.795 320.72 L 310.005 357.563 L 310.005 357.574 Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <h2 class="plaer__title">Regala't un <br>moment de <span class="text--plaer">plaer</span></h2>
+        </div>
+      </section>
+
+      <!-- SECCIÓ PRODUCTES -->
+      <section class="productes" id="productes">
+        <!-- Fletxes de navegació per a mòbil -->
+        <button class="productes__arrow productes__arrow--left" aria-label="Producte anterior">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/></svg>
+        </button>
+        <button class="productes__arrow productes__arrow--right" aria-label="Següent producte">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="currentColor"/></svg>
+        </button>
+
         <div class="productes__wrap">
           <div class="productes__content">
-            <a href="#"><img src="img/apolles.png" alt="Ampolles de refresc àcides" class="producte1" /></a>
+            <a href="#" aria-label="Ampolles de refresc àcides"><img src="img/apolles.png" alt="Ampolles de refresc àcides" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/fruites.png" alt="Fruites del bosc" class="producte1" /></a>
+            <a href="#" aria-label="Fruites del bosc"><img src="img/fruites.png" alt="Fruites del bosc" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/fulles.png" alt="Fulles de regalèssia" class="producte1" /></a>
+            <a href="#" aria-label="Fulles de regalèssia"><img src="img/fulles.png" alt="Fulles de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/guixos pols.png" alt="Guixos amb pols de regalèssia" class="producte1" /></a>
+            <a href="#" aria-label="Guixos amb pols de regalèssia"><img src="img/guixos pols.png" alt="Guixos amb pols de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/guixos.png" alt="Guixos de regalèssia" class="producte1" /></a>
+            <a href="#" aria-label="Guixos de regalèssia"><img src="img/guixos.png" alt="Guixos de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/maduixes.png" alt="Maduixes" class="producte1" /></a>
+            <a href="#" aria-label="Maduixes"><img src="img/maduixes.png" alt="Maduixes" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/ossets.png" alt="Icone Raymel" class="producte1" /></a>
+            <a href="#" aria-label="Ossets de goma"><img src="img/ossets.png" alt="Ossets de goma" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#"><img src="img/perles.png" alt="Icone Raymel" class="producte1" /></a>
+            <a href="#" aria-label="Perles dolces"><img src="img/perles.png" alt="Perles dolces" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
         </div>
       </section>
-      <section class="especial"></section>
 
-      <!-- PIE DE PÁGINA -->
-      <footer id="main-footer" class="footer-section">
-        <div class="footer__content">
-          <div class="footer__nav">
-            <ul class="footer__nav-list">
-              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Nosaltres</a></li>
-              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Productes</a></li>
-              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Especialitats</a></li>
-              <li class="footer__nav-item"><a href="#" class="footer__nav-link">Contacte</a></li>
-            </ul>
+      <!-- SECCIÓ ESPECIAL -->
+      <section class="especial" id="especial">
+        <div class="special-col1">
+          <h2 class="especial__title">Regala't un <br />moment de plaer</h2>
+          <div class="especial__img"></div>
+        </div>
+
+        <div class="special-col2">
+          <h2 class="especial__text">Perquè créixer no és renunciar al dolç</h2>
+          <p class="especial__p">
+            A Raymel recorrem Europa a la recerca dels millors gustos. No qualsevol gust, sinó aquell que et fa tancar els ulls,
+            que et torna a aquell calaix de casa l'àvia, que et fa fer un "mmm" sense demanar permís. Som seleccionadors de plaers
+            petits, d'aquells que no ocupen lloc pero que omplen molt. Perquè en un món que no para, aturar-se per una llaminadura
+            és gairebé un acte revolucionari.
+          </p>
+          <p class="especial__p">
+            Les nostres xuxes no són un snack, són una declaració d'intencions. La de qui sap que mereix quelcom bo, ara, sense
+            esperar l'ocasió especial. Dolços per a paladars adults que, de tant en tant, necessiten reconnectar amb el nen que
+            porten a dins. Perquè quan algú diu "és un plaer assaborir-te", ja saps com respondrem: el plaer és meu.
+          </p>
+        </div>
+        
+        <div class="special-bg">
+          <div class="special-col1">
+              <h2 class="especial__title">Regala't un <br />moment de plaer</h2>
+              <div class="especial__img especial__img--violet"></div>
+            </div>
+
+          <div class="special-col2">
+            <h2 class="especial__text">Perquè créixer no és renunciar al dolç</h2>
+            <p class="especial__p">
+              A Raymel recorrem Europa a la recerca dels millors gustos. No qualsevol gust, sinó aquell que et fa tancar els ulls,
+              que et torna a aquell calaix de casa l'àvia, que et fa fer un "mmm" sense demanar permís. Som seleccionadors de
+              plaers petits, d'aquells que no ocupen lloc pero que omplen molt. Perquè en un món que no para, aturar-se per una
+              llaminadura és gairebé un acte revolucionari.
+            </p>
+            <p class="especial__p">
+              Les nostres xuxes no són un snack, són una declaració d'intencions. La de qui sap que mereix quelcom bo, ara, sense
+              esperar l'ocasió especial. Dolços per a paladars adults que, de tant en tant, necessiten reconnectar amb el nen que
+              porten a dins. Perquè quan algú diu "és un plaer assaborir-te", ja saps com respondrem: el plaer és meu.
+            </p>
+          </div>
+        </div>
+      </section>
+
+       <!-- ITEM -->
+      <section class="items">
+      <div class="items-nav-mobile">
+          <button id="prev-item" aria-label="Anterior">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          </button>
+          <button id="next-item" aria-label="Siguiente">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+      </div>
+        <div class="Guixos">
+          <div class="boxTitol">
+            <h2>Guixos de regalesia</h2>
+            <p class="textItem">Hi ha gustos que no s'expliquen, només es recorden. El guix de regalèssia és un d'aquells. Intens, negre, real. Per als que saben el que volen.</p>
+            <p class="textFrase">Perquè alguns plaers no necessiten justificació.</p>
+          <a href="html/guixos.html"><button class="comprar">Comprar</button></a>
+        </div>
+        <div class="boxTitol2">
+          <div class="boxImgItems">
+            <img src="img/guixos.png" alt="Guixos de regalèssia dolços Raymel" width="3000" height="2250"  srcset="">
+          </div>
+         </div>
+        </div>
+        <!--Ossets -->
+        <div class="Ossets">
+          <div class="boxTitol">
+            <h2>Ossets àcids</h2> 
+            <p class="textItem">Primer et fa fer cara. Després et fa repetir. Els ossets àcids tenen aquell do de convertir un moment qualsevol en una petita aventura per al paladar.</p>
+            <p class="textFrase">Deixa't sorprendre, de nou.</p>
+            <a href="html/ossets.html"><button class="comprar">Comprar</button></a>
+          </div>
+        <div class="boxTitol2" >
+          <div class="boxImgItems">
+            <img src="img/ossets.png" alt="Ossets àcids Raymel" width="3000" height="2250"  srcset="">
+          </div>
+        </div>
+        </div>
+        <!--Perles de menta -->
+        <div class="Perles">
+          <div class="boxTitol">
+            <h2>Perles de menta</h2> 
+            <p class="textItem">Fresques, rodones i perfectes. Les perles de menta no criden l'atenció, però quan les proves entens per què mai no en queda cap.</p>
+            <p class="textFrase">El petit detall que ho canvia tot.</p>
+            <a href="html/perles.html"><button class="comprar">Comprar</button></a>
+          </div>
+          <div class="boxTitol2" >
+            <div class="boxImgItems">
+              <img src="img/perles.png" alt="Perles de menta Raymel" width="3000" height="2250"  srcset="">
+            </div>
+          </div>
+        </div>
+        <!--Fruites -->
+        <div class="Fruites">
+          <div class="boxTitol">
+            <h2>Fruites del bosc</h2> 
+            <p class="textItem">Mores, gerds, nabius... tot allò que el bosc amaga i tu trobes aquí. Un gust llarg, profund i honest. Sense artificis, només la fruita.</p>
+            <p class="textFrase">La naturalesa en forma de capritx.</p>
+            <a href="html/fruites.html"><button class="comprar">Comprar</button></a>
+          </div>
+          <div class="boxTitol2" >
+            <div class="boxImgItems">
+              <img src="img/fruites.png" alt="Fruites del bosc Raymel" width="3000" height="2250"  srcset="">
+            </div>
+          </div>
+        </div>
+
+         <!--Fulles -->
+        <div class="Fulles">
+          <div class="boxTitol">
+            <h2>Fulla de regalèssia</h2> 
+            <p class="textItem">La fulla de regalèssia és un clàssic que resisteix tendències. Suau per fora, intensa per dins. Reconeixeràs el gust fins i tot amb els ulls tancats.</p>
+            <p class="textFrase">Alguns gustos no passen de moda. Per alguna raó serà.</p>
+            <a href="html/fulles.html"><button class="comprar">Comprar</button></a>
+          </div>
+          <div class="boxTitol2" >
+            <div class="boxImgItems">
+              <img src="img/fulles.png" alt="Fulla de regalèssia Raymel" width="3000" height="2250"  srcset="">
+            </div>
+          </div>
+        </div>
+
+        <!--Coles -->
+        <div class="Coles">
+          <div class="boxTitol">
+            <h2>Ampolles de refrescs àcids</h2> 
+            <p class="textItem">Les coles sempre han existit. Però no totes les coles són iguals. Les nostres tenen aquella textura que et fa trigar el doble a acabar-les. I ho agraeixes.</p>
+            <p class="textFrase">Senzilles. Insubstituïbles.</p>
+            <a href="html/coles.html"><button class="comprar">Comprar</button></a>
+          </div>
+          <div class="boxTitol2" >
+            <div class="boxImgItems">
+              <img src="img/apolles.png" alt="Ampolles de refrescs àcids Raymel" width="3000" height="2250"  srcset="">
+            </div>
+          </div>
+        </div>
+
+         <!--Maduixes -->
+        <div class="Maduixes">
+          <div class="boxTitol">
+            <h2>Maduixes àcides</h2> 
+            <p class="textItem">No hi ha res com mossegar una maduixa de veritat. Les nostres no se n'allunyen gaire. Dolces, lleugerament àcides, i irresistiblement vermelles.</p>
+            <p class="textFrase">Una cada dia no és excés. És costum.</p>
+            <a href="html/maduixes.html"><button class="comprar">Comprar</button></a>
+          </div>
+          <div class="boxTitol2" >
+            <div class="boxImgItems">
+              <img src="img/maduixes.png" alt="Maduixes Raymel" width="3000" height="2250"  srcset="">
+            </div>
+          </div>
+        </div>
+
+        <!--Pols de regalessia -->
+        <div class="Pols">
+          <div class="boxTitol">
+            <h2>Guix amb pols de regalèssia</h2> 
+            <p class="textItem">El guix de tota la vida, però amb un secret a dins. La pols de regalèssia apareix just al final, quan ja creus que saps com acaba la història. I ens encanta despistar-te.</p>
+            <p class="textFrase">El gust que no t'esperes. El que tornes a buscar.</p>
+            <a href="html/pols.html"><button class="comprar">Comprar</button></a>
+          </div>
+          <div class="boxTitol2" >
+            <div class="boxImgItems">
+              <img src="img/pols.png" alt="Guix amb pols de regalèssia Raymel" width="3000" height="2250"  srcset="">
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- PLAER -->
+      <section class="parlem">
+          <div class="parlemBox1">
+            <div class="boxParlem">
+              <h1>Parlem de qui és el plaer?</h1>
+              <p>Want to share a story that’s not fascinating at all, or a fact absolutely no one asked for?</p>
+              <p>Email: <br> <a href="mailto:[EMAIL_ADDRESS]">hola@unsitiogenial.es.</a></p>
+              <p>Social: <br> <a href="https://www.instagram.com/raymel.regalessia/">@raymel.regalessia</a></p>
+            </div>
+            <div class="boxParlem2">
+              <a href="#header"><img src="img/icones svg/raymel_logo blanc.svg" alt="Logo Raymel" width="3000" height="2250"  srcset=""></a>
+            </div>
+          </div>
+          <div class="boxIcone">
+            <img class="icon1" src="img/icones png/guixos.png" alt="Guixos" width="3000" height="2250"  srcset="">
+            <img class="icon2" src="img/icones png/fruites.png" alt="Fruites" width="3000" height="2250"  srcset="">
+          </div>
+      </section>
+
+      <!-- CONTACT CANDY SECTION -->
+      <section id="contact" class="contact-section">
+        <div class="contact__container">
+          <div class="contact__header">
+            <h2 class="contact__info-title">¡Endolça el teu projecte!</h2>
+            <p class="contact__candy-subtitle">Tens una idea dolça al cap? Explica'ns-la i farem que sigui irresistible.</p>
+          </div>
+
+          <div class="contact__form-wrapper">
+            <form class="modern-form" id="contact-form-element" action="javascript:void(0);" method="POST">
+              <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+              <div style="display:none;">
+                <input type="text" name="honeypot" value="">
+              </div>
+              <input type="hidden" name="recaptcha_response" id="recaptcha_response">
+
+              <div class="form-row">
+                <div class="form-field">
+                  <input type="text" id="name" name="name" class="form-field__input" placeholder=" " required />
+                  <label for="name" class="form-field__label">Nom</label>
+                </div>
+                <div class="form-field">
+                  <input type="email" id="email" name="email" class="form-field__input" placeholder=" " required />
+                  <label for="email" class="form-field__label">Correu electrònic</label>
+                </div>
+              </div>
+
+                <div class="form-field">
+                  <input type="text" id="subject" name="subject" class="form-field__input" placeholder=" " required />
+                  <label for="subject" class="form-field__label">Assumpte</label>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <textarea id="message" name="message" class="form-field__input form-field__textarea" placeholder=" " required></textarea>
+                <label for="message" class="form-field__label">Explica'ns el teu desig...</label>
+              </div>
+
+              <div class="form-checkbox">
+                <input type="checkbox" id="privacy" name="privacy" class="form-checkbox__input" required />
+                <label for="privacy" class="form-checkbox__label">He llegit i accepto les <a href="#">condicions d'ús</a>.</label>
+              </div>
+
+              <button type="submit" class="form-btn">
+                <span class="form-btn__text">Enviar</span>
+                <div class="form-btn__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer" id="contacte">
+        <div class="footer__inner">
+          <div class="footer__top">
+            <div class="footer__brand">
+              <img src="img/icones svg/logo.svg" alt="Raymel" class="footer__logo" width="120" height="40" loading="lazy" />
+              <p class="footer__tagline">Sweet Sensations</p>
+            </div>
+            <div class="footer__links">
+              <div class="footer__col">
+                <h3 class="footer__col-title">Navegació</h3>
+                <a href="#nosaltres" class="footer__link">Nosaltres</a>
+                <a href="#productes" class="footer__link">Productes</a>
+                <a href="#especial" class="footer__link">Especialitats</a>
+                <a href="#contacte" class="footer__link">Contacte</a>
+              </div>
+              <div class="footer__col">
+                <h3 class="footer__col-title">Segueix-nos</h3>
+                <a href="#" class="footer__link">Instagram</a>
+                <a href="#" class="footer__link">Facebook</a>
+                <a href="#" class="footer__link">Twitter</a>
+              </div>
+            </div>
+          </div>
+          <div class="footer__bottom">
+            <span class="footer__copy">© 2024 Raymel. Tots els drets reservats.</span>
           </div>
         </div>
       </footer>
