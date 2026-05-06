@@ -474,7 +474,6 @@ img {
   justify-content: center;
   padding: var(--s-10) 5%;
   z-index: 50;
-  /* display: none; */
 }
 
 .plaer__content {
@@ -549,17 +548,10 @@ img {
 /* ----- INICI SECCIÓ PRODUCTES ----- */
 .productes {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--color-secondary);
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  /* display: none; */
+  overflow: hidden; /* Evitem el scroll natiu per GSAP */
   border-top: 2vw solid var(--fons-violeta);
-  /* display: none; */
 }
 
 .productes::-webkit-scrollbar {
@@ -1201,148 +1193,236 @@ img {
   }
 }
 
-/* ========================= ITEMS ======================== */
-.parlem {
+/* ========================= REVEAL WRAPPER ======================== */
+.reveal-wrapper {
   position: relative;
-  height: 100svh;
-  width: auto;
-  min-height: 100svh;
-  background-color: var(--fons-violeta);
-  color: var(--color-secondary);
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.parlem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background: transparent;
+  pointer-events: none; /* Permet interactuar amb el que hi ha sota un cop obert */
 }
 
-.parlemBox1 {
-  flex-basis: 60%;
+.parlem-container {
+  width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  position: relative;
+  align-items: center;
   justify-content: center;
-  padding: 3rem min(1rem, 10vw);
-  gap: 1.5rem;
-  padding-left: min(2rem, 100%);
+  pointer-events: auto;
 }
 
-.boxParlem {
+.box-pic1,
+.box-pic2 {
+  position: absolute;
+  top: 0;
+  width: 50%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 60px;
-
-  h1 {
-    font-size: clamp(3rem, calc(4.5vw + 0.3rem), 8rem);
-    font-weight: 700;
-    letter-spacing: -3%;
-    padding-bottom: 2rem;
-  }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
+  z-index: 1;
 }
 
-.boxParlem2 {
-  height: auto;
-  width: 60%;
-  display: block;
-  padding: 0.5rem;
-
-  h1 {
-    font-size: clamp(3rem, calc(4.5vw + 0.3rem), 8rem);
-    font-weight: 700;
-    letter-spacing: -3%;
-  }
-}
-.boxIcone {
-  flex: 1;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 1rem min(1rem, 15vw);
-  margin-top: 60px;
+.box-pic1 {
+  left: 0;
+  background-image: url("../img/nena.png");
+  background-size: cover;
+  background-position: center;
 }
 
-.icon1,
-.icon2 {
-  width: 45%;
-  height: 45%;
-  background-color: var(--fons-clar);
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  content: "";
-  display: block;
-  mask-position: center;
-}
-.icon1 {
-  -webkit-mask-image: url("../img/icones svg/guixos pols.svg");
-  mask-image: url("../img/icones svg/guixos pols.svg");
+.box-pic2 {
+  right: 0;
+  background-image: url("../img/chuches.png");
+  background-size: cover;
+  background-position: center;
 }
 
-.icon2 {
-  .icon2 {
-    -webkit-mask-image: url("../img/icones%20svg/fruites%20del%20bosc.svg");
-    mask-image: url("../img/icones%20svg/fruites%20del%20bosc.svg");
-  }
+.parlem-btn {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 4rem;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  background-color: var(--color-secondary);
+  color: var(--fons-violeta);
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.parlem-btn:hover {
+  transform: scale(1.1);
+  background-color: var(--fons-rosa);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 768px) {
-  .parlem {
-    height: auto;
-    min-height: 100svh;
-    flex-direction: column;
-    padding: 2rem 1rem;
-  }
-
-  .parlemBox1 {
-    flex-basis: 100%;
+  .box-pic1 {
     width: 100%;
-    height: auto;
-    padding: 1rem 1rem;
-    align-items: center;
-    text-align: center;
   }
-
-  .boxParlem {
-    width: 100%;
-    align-items: center;
-    text-align: center;
+  .box-pic2 {
+    display: none;
   }
-
-  .boxParlem h1 {
-    font-size: 3.5rem;
-    padding-bottom: 1.5rem;
+  .parlem-btn {
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
   }
+}
 
-  .boxParlem2 {
-    width: 60%;
-    margin: 2rem auto;
+/* ========================= TESTIMONIALS ======================== */
+.testimonials {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--fons-rosa);
+}
+
+.testimonials__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/testimonials_bg.png");
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.testimonials__bg::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.testimonials__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonials__shape-wrapper {
+  position: relative;
+  width: min(500px, 90vw);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem; /* Espai de seguretat */
+}
+
+.testimonials__shape-icon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  filter: brightness(0) invert(1) drop-shadow(0 20px 60px rgba(0, 0, 0, 0.1));
+  will-change: transform;
+}
+
+.testimonials__slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonial-card {
+  position: absolute;
+  width: 85%;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 0;
+  will-change: transform, opacity;
+}
+
+.testimonial-card:first-child {
+  opacity: 1;
+  visibility: visible;
+}
+
+.testimonial-quote {
+  font-family: var(--font-main);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 700;
+  color: var(--fons-violeta);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.testimonial-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.testimonial-author {
+  font-weight: 800;
+  color: var(--fons-violeta);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+}
+
+.testimonial-date {
+  font-size: 0.8rem;
+  color: var(--fons-violeta);
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .testimonials {
+    height: 100vh;
   }
-
-  .boxIcone {
-    flex-basis: 100%;
-    width: 100%;
-    height: auto;
-    flex-wrap: wrap;
-    padding: 1rem 1rem;
+  .testimonials__shape-wrapper {
+    width: 90vw;
+    max-width: 380px;
     margin-top: 0;
   }
-
-  .icon1,
-  .icon2 {
-    width: 180px;
-    height: 180px;
+  .testimonial-card {
+    width: 85%;
+  }
+  .testimonial-quote {
+    font-size: 1.1rem;
   }
 }
 
@@ -1585,6 +1665,7 @@ img {
 
 /* ----- INICI SECCIÓ FOOTER ----- */
 .footer {
+  display: none;
   background: var(--fons-violeta);
   padding: var(--s-10) 5% var(--s-4);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -1660,4 +1741,128 @@ img {
   box-shadow:
     0 0 10px rgba(255, 255, 255, 0.8),
     0 0 20px rgba(161, 151, 197, 0.4);
+}
+
+/* ========================= FOOTER MODERN ======================== */
+.footer-fixed {
+  position: relative; /* Ja no és fix */
+  width: 100%;
+  background: var(--fons-violeta);
+  padding: 4rem 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-fixed__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.footer-fixed__socials {
+  display: flex;
+  gap: 2rem;
+}
+
+.social-link {
+  color: var(--color-secondary);
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    color 0.3s ease;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.8rem;
+  border-radius: 50%;
+}
+
+.social-link:hover {
+  transform: translateY(-5px) scale(1.1);
+  background: var(--fons-clar);
+  color: var(--fons-violeta);
+}
+
+.footer-fixed__copy {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+}
+
+@media (min-width: 768px) {
+  .footer-fixed__content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* ==========================================================================
+   PAGE PRODUCTES
+   ========================================================================== */
+.page-productes main {
+  padding-top: var(--s-8);
+}
+
+/* ==========================================================================
+   PAGE PRODUCTES - HORIZONTAL SCROLL
+   ========================================================================== */
+.items-horizontal {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--color-secondary);
+}
+
+.items-wrap {
+  display: flex;
+  height: 100%;
+  width: 800vw; /* 8 productes * 100vw */
+  will-change: transform;
+}
+
+.item-block {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10vw;
+}
+
+.item-block > div {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  align-items: center;
+  gap: 5vw;
+}
+
+@media (max-width: 768px) {
+  .items-horizontal {
+    height: auto;
+    overflow: visible;
+  }
+  .items-wrap {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+  }
+  .item-block {
+    width: 100%;
+    height: auto;
+    padding: var(--s-10) var(--s-4);
+  }
+  .item-block > div {
+    flex-direction: column;
+  }
 }
