@@ -29,6 +29,25 @@ document.addEventListener("DOMContentLoaded", () => {
     lenis.raf(time * 1000);
   });
   gsap.ticker.lagSmoothing(0);
+  
+  // Smooth Scroll per a enllaços interns amb Lenis
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const target = this.getAttribute('href');
+      
+      // Si l'enllaç és a una altra pàgina amb hash (ex: productes.html#Coles)
+      // no fem preventDefault si no estem a la pàgina de destí.
+      // Però aquí estem filtrant per href^="#", així que només són anclatges interns.
+      
+      e.preventDefault();
+      
+      if (target === "#") {
+        lenis.scrollTo(0);
+      } else {
+        lenis.scrollTo(target);
+      }
+    });
+  });
 
   /* ----- INICI HEADER & MENÚ ----- */
   // const header = document.querySelector(".header");
@@ -140,6 +159,31 @@ document.addEventListener("DOMContentLoaded", () => {
       .from(".hero__scroll-indicator", { opacity: 0, duration: DURATION.NORMAL }, "-=0.8");
   }
 
+  // Funció per a la flotació de l'icona de testimonis
+  function floatTestimonialIcon() {
+    const icon = document.querySelector(".testimonials__shape-icon");
+    if (icon) {
+      gsap.to(icon, {
+        y: 20,
+        rotation: 3,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+    }
+  }
+  floatTestimonialIcon();
+
+  // Animació Header per a pàgines sense Hero (com Productes)
+  if (!document.querySelector(".hero__title") && document.querySelector(".header")) {
+    const tlHeader = gsap.timeline();
+    tlHeader
+      .from(".header", { yPercent: -100, duration: DURATION.NORMAL, ease: EASE })
+      .from(".header__logo", { x: -50, opacity: 0, duration: DURATION.SLOW, ease: EASE }, "-=0.2")
+      .from(".header__nav-link", { y: -20, opacity: 0, stagger: 0.1, duration: DURATION.NORMAL, ease: EASE }, "-=0.4");
+  }
+
   // Funció per iniciar l'ona sutil de les lletres del títol del Hero
   function onaNubol() {
     if (document.querySelector(".hero__img")) {
@@ -224,21 +268,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // HORIZONTAL SCROLL ITEMS (PRODUCTES.HTML)
-  const itemsWrap = document.querySelector(".items-wrap");
-  if (itemsWrap) {
-    gsap.to(itemsWrap, {
-      x: () => -(itemsWrap.scrollWidth - window.innerWidth),
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#items-scroll",
-        pin: true,
-        scrub: 1,
-        end: () => `+=${itemsWrap.scrollWidth * 1.5}`, // Ajustem la durada del pin
-        invalidateOnRefresh: true,
-      },
-    });
-  }
+  // HORIZONTAL SCROLL ITEMS (PRODUCTES.HTML) - DESACTIVAT PER USAR LA TIMELINE
+  // const itemsWrap = document.querySelector(".items-wrap");
+  // if (itemsWrap) {
+  //   gsap.to(itemsWrap, {
+  //     x: () => -(itemsWrap.scrollWidth - window.innerWidth),
+  //     ease: "none",
+  //     scrollTrigger: {
+  //       trigger: "#items-scroll",
+  //       pin: true,
+  //       scrub: 1,
+  //       end: () => `+=${itemsWrap.scrollWidth * 1.5}`, // Ajustem la durada del pin
+  //       invalidateOnRefresh: true,
+  //     },
+  //   });
+  // }
 
   /* ----- INICI ANIMACIÓ MORPH SECCIÓ PLAER ----- */
   if (document.getElementById("morph-svg")) {
@@ -358,8 +402,37 @@ document.addEventListener("DOMContentLoaded", () => {
           scrub: 0.5,
         },
       });
+
+      // Gestió de Hash per saltar a producte concret
+      const hash = window.location.hash;
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          // Calculem el progrés basat en el nombre d'ítems (8 ítems)
+          // Aproximadament cada ítem ocupa 1/8 de la línia de temps total (12 innerHeights)
+          const items = [
+            "#Guixos",
+            "#Ossets",
+            "#Perles",
+            "#Fruites",
+            "#Fulles",
+            "#Coles",
+            "#Maduixes",
+            "#Pols",
+          ];
+          const index = items.indexOf(hash);
+          if (index !== -1) {
+            const scrollAmount = (window.innerHeight * 12 * index) / (items.length - 1);
+            setTimeout(() => {
+              window.scrollTo(0, scrollAmount + itemsEl.offsetTop);
+            }, 100);
+          }
+        }
+      }
+
       let guixos = new SplitText(".Guixos h2", { type: "chars, lines", mask: "lines" });
       let guixosText = new SplitText(".Guixos .textItem", { type: "chars, lines", mask: "lines" });
+      // ... (altres SplitText es mantenen igual)
       let ossets = new SplitText(".Ossets h2", { type: "chars, lines", mask: "lines" });
       let ossetsText = new SplitText(".Ossets .textItem", { type: "chars, lines", mask: "lines" });
       let perles = new SplitText(".Perles h2", { type: "chars, lines", mask: "lines" });
@@ -376,7 +449,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let polsText = new SplitText(".Pols .textItem", { type: "chars, lines", mask: "lines" });
 
       tlItems
-        .to({}, { duration: 0.1 })
+        // La primera animació no hauria de fer un .from si volem que es vegi ja al entrar
+        // Però per mantenir l'estètica scrub, podem fer que el primer item estigui ja "revelat" al progrés 0
+        .set(".Guixos", { autoAlpha: 1 })
         .from(guixos.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 })
         .from(
           guixosText.lines,
@@ -720,16 +795,6 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: 5,
           ease: "power2.out",
           delay: 1,
-          onComplete: () => {
-            // Iniciem la flotació un cop ha entrat
-            gsap.to(".testimonials__shape-icon", {
-              y: 30,
-              duration: 3,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-            });
-          },
         },
         "-=0.2", // Comença una mica abans que acabin d'obrir-se
       )

@@ -17,6 +17,7 @@
     <!-- Biblioteques GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
 
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
@@ -35,7 +36,7 @@
       <!-- Navegació Desktop -->
       <nav class="header__nav">
         <ul class="header__nav-list">
-          <li class="header__nav-item"><a href="index.html#nosaltres" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
+          <li class="header__nav-item"><a href="index.html#especial" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
           <li class="header__nav-item"><a href="productes.html" class="header__nav-link active" data-text="Productes">Productes</a></li>
           <li class="header__nav-item"><a href="index.html#especial" class="header__nav-link" data-text="Especialitats">Especialitats</a></li>
           <li class="header__nav-item"><a href="index.html#contact" class="header__nav-link" data-text="Contacte">Contacte</a></li>
@@ -62,7 +63,7 @@
     </header>
 
     <main>
-      <section class="items-horizontal" id="items-scroll">
+      <section class="items items-horizontal" id="items-scroll">
         <div class="items-wrap">
           <div class="items-nav-mobile">
             <button id="prev-item" aria-label="Anterior">
@@ -97,7 +98,7 @@
             </button>
           </div>
 
-          <div class="item-block Guixos">
+          <div id="Guixos" class="item-block Guixos">
             <div class="boxTitol">
               <h2>Guixos de regalèssia</h2>
               <p class="textItem">
@@ -114,7 +115,7 @@
             </div>
           </div>
 
-          <div class="item-block Ossets">
+          <div id="Ossets" class="item-block Ossets">
             <div class="boxTitol">
               <h2>Ossets àcids</h2>
               <p class="textItem">
@@ -131,7 +132,7 @@
             </div>
           </div>
 
-          <div class="item-block Perles">
+          <div id="Perles" class="item-block Perles">
             <div class="boxTitol">
               <h2>Perles de menta</h2>
               <p class="textItem">
@@ -147,7 +148,7 @@
             </div>
           </div>
 
-          <div class="item-block Fruites">
+          <div id="Fruites" class="item-block Fruites">
             <div class="boxTitol">
               <h2>Fruites del bosc</h2>
               <p class="textItem">
@@ -164,7 +165,7 @@
             </div>
           </div>
 
-          <div class="item-block Fulles">
+          <div id="Fulles" class="item-block Fulles">
             <div class="boxTitol">
               <h2>Fulla de regalèssia</h2>
               <p class="textItem">
@@ -181,7 +182,7 @@
             </div>
           </div>
 
-          <div class="item-block Coles">
+          <div id="Coles" class="item-block Coles">
             <div class="boxTitol">
               <h2>Ampolles de refrescs àcids</h2>
               <p class="textItem">
@@ -198,7 +199,7 @@
             </div>
           </div>
 
-          <div class="item-block Maduixes">
+          <div id="Maduixes" class="item-block Maduixes">
             <div class="boxTitol">
               <h2>Maduixes àcides</h2>
               <p class="textItem">
@@ -215,7 +216,7 @@
             </div>
           </div>
 
-          <div class="item-block Pols">
+          <div id="Pols" class="item-block Pols">
             <div class="boxTitol">
               <h2>Guix amb pols de regalèssia</h2>
               <p class="textItem">

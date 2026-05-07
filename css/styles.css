@@ -49,8 +49,8 @@
   --radius-l: 16px;
 
   /* Variables dinàmiques per GSAP */
-  --porcenatge-titol-Hero: 40%;
-  --porcenatge2-titol-Hero: 85%;
+  --porcenatge-titol-Hero: 0%;
+  --porcenatge2-titol-Hero: 100%;
 }
 
 * {
@@ -105,9 +105,15 @@ img {
 
 .header__logo {
   position: relative;
-  height: clamp(35px, calc(3vw + 1rem), 45px);
+  height: clamp(30px, calc(2vw + 1rem), 45px); /* Abans 45-65px */
   display: flex;
   align-items: center;
+}
+
+.header__logo a {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .header__logo img {
@@ -379,7 +385,7 @@ img {
   line-height: 0.9;
   text-align: center;
   color: var(--color-secondary);
-  text-shadow: 0 4px 20px rgba(57, 40, 108, 0.4);
+  /* text-shadow: 0 4px 20px rgba(57, 40, 108, 0.4); Eliminat efecte difuminat */
   will-change: transform, opacity, filter;
   padding: 1rem;
   position: relative;
@@ -393,7 +399,8 @@ img {
 
 .hero__title div div,
 .hero__title .split-char {
-  background: linear-gradient(180deg, var(--fons-violeta) var(--porcenatge-titol-Hero), var(--fons-clar) var(--porcenatge2-titol-Hero));
+  /* background: linear-gradient(180deg, var(--fons-violeta) var(--porcenatge-titol-Hero), var(--fons-clar) var(--porcenatge2-titol-Hero)); */
+  background-color: var(--fons-violeta);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -716,9 +723,10 @@ img {
 .morph-container {
   width: 100%;
   max-width: 450px;
-  opacity: 0.4;
+  opacity: 1; /* Opacitat completa per petició de l'usuari */
   /* border: solid red 1px; */
   margin-top: -2rem;
+  transform: translateX(10px); /* Ajust cap a la dreta per centrar millor en mòbil */
 }
 
 /* .especial__img {
@@ -970,7 +978,7 @@ img {
   background-image: url("../img/icones%20png/pols.png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: 70%;
+  background-size: 90%; /* Abans 70% */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -981,7 +989,7 @@ img {
     height: 100%;
     object-fit: contain;
     cursor: pointer;
-    transform: scale(1.2);
+    transform: scale(1.6); /* Abans 1.2 */
   }
 }
 
@@ -990,7 +998,7 @@ img {
 }
 
 .boxImgItems img:hover {
-  transform: scale(1.2) rotateY(40deg);
+  transform: scale(1.8) rotateY(40deg); /* Abans scale(1.2), ara més gran que el base 1.6 */
   animation: shake-lateral 0.4s ease-in-out;
   filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
 }
@@ -1019,42 +1027,42 @@ img {
 /* Ossets */
 .Ossets .boxImgItems {
   background-image: url("../img/icones%20png/ossets.png");
-  background-size: 42%;
+  background-size: 55%; /* Abans 42% */
 }
 /* Perles */
 .Perles .boxImgItems {
   background-image: url("../img/icones%20png/icona\ 1.png");
-  background-size: 60%;
+  background-size: 75%; /* Abans 60% */
 }
 
 /* Fruites */
 .Fruites .boxImgItems {
   background-image: url("../img/icones%20png/fruites.png");
-  background-size: 65%;
+  background-size: 80%; /* Abans 65% */
 }
 
 /* Fulles */
 .Fulles .boxImgItems {
   background-image: url("../img/icones%20png/fulles.png");
-  background-size: 60%;
+  background-size: 75%; /* Abans 60% */
 }
 
 /* Coles */
 .Coles .boxImgItems {
   background-image: url("../img/icones%20png/coles.png");
-  background-size: 55%;
+  background-size: 70%; /* Abans 55% */
 }
 
 /* Maduixes */
 .Maduixes .boxImgItems {
   background-image: url("../img/icones%20png/maduixa.png");
-  background-size: 55%;
+  background-size: 70%; /* Abans 55% */
 }
 
 /* Pols de regalèssia */
 .Pols .boxImgItems {
   background-image: url("../img/icones%20png/pols.png");
-  background-size: 60%;
+  background-size: 75%; /* Abans 60% */
 }
 
 @media (max-width: 768px) {
@@ -1168,14 +1176,14 @@ img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transform: scale(1.5);
+    transform: scale(1.8); /* Abans 1.5 */
   }
   .boxTitol2 .boxImgItems img:hover {
-    transform: scale(1.8);
+    transform: scale(2); /* Abans 1.8 */
   }
 
   .boxImgItems img:hover {
-    transform: rotateY(40deg), scale(1.5);
+    transform: rotateY(40deg) scale(2); /* Abans scale(1.5) */
     filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
     animation: none;
   }
@@ -1359,6 +1367,7 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateY(30px); /* Baixem NOMÉS el text */
 }
 
 .testimonial-card {
@@ -1382,7 +1391,7 @@ img {
 
 .testimonial-quote {
   font-family: var(--font-main);
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: clamp(0.95rem, 1.7vw, 1.3rem);
   font-weight: 700;
   color: var(--fons-violeta);
   line-height: 1.4;
@@ -1416,13 +1425,16 @@ img {
   .testimonials__shape-wrapper {
     width: 90vw;
     max-width: 380px;
-    margin-top: 0;
+    margin: 0 auto; /* Centrem horitzontalment */
   }
   .testimonial-card {
     width: 85%;
   }
   .testimonial-quote {
-    font-size: 1.1rem;
+    font-size: 1rem;
+  }
+  .testimonials__slider {
+    transform: translateY(10px); /* Baixem el text en mòbil */
   }
 }
 
@@ -1779,7 +1791,7 @@ img {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.8rem;
+  padding: 1.2rem; /* Abans 0.8rem */
   border-radius: 50%;
 }
 
@@ -1823,28 +1835,47 @@ img {
 }
 
 .items-wrap {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
   height: 100%;
-  width: 800vw; /* 8 productes * 100vw */
+  width: 100%;
   will-change: transform;
 }
 
 .item-block {
-  width: 100vw;
+  grid-area: 1 / 1 / 2 / 2;
+  width: 100%;
   height: 100vh;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 10vw;
+  opacity: 0; /* Amaguem tots per defecte per a la timeline */
+  gap: 5vw; /* Gap entre columnes (Titol i Imatge) */
 }
 
-.item-block > div {
+.item-block.Guixos {
+  opacity: 1; /* El primer es veu inicialment */
+}
+
+/* Eliminem la regla genèrica que trencava l'espaiat intern dels textos */
+.item-block > .boxTitol {
+  flex-basis: 50%;
   display: flex;
-  width: 100%;
-  max-width: 1400px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem; /* Restablim l'espaiat de 1.5rem entre textos */
+}
+
+.item-block > .boxTitol2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5vw;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -1853,14 +1884,20 @@ img {
     overflow: visible;
   }
   .items-wrap {
-    flex-direction: column;
+    display: block; /* Tornem a block per a mòbil */
     width: 100%;
     height: auto;
   }
   .item-block {
+    position: relative;
     width: 100%;
     height: auto;
     padding: var(--s-10) var(--s-4);
+    opacity: 1; /* Tots visibles en scroll vertical natiu? O un per un? */
+    display: none; /* La lògica JS els anirà mostrant un per un */
+  }
+  .item-block.Guixos {
+    display: flex; /* El primer visible */
   }
   .item-block > div {
     flex-direction: column;

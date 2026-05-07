@@ -49,15 +49,16 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
   <body>
     <header class="header">
       <div class="header__logo">
-        <!-- <img src="img/icones svg/logo.svg" alt="Raymel Logo" class="logo-dark" width="120" height="40" /> -->
-        <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" class="logo-white" width="120" height="40" />
+        <a href="#hero" aria-label="Anar a l'inici">
+          <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" class="logo-white" width="120" height="40" />
+        </a>
       </div>
 
       <!-- Navegació Desktop -->
       <nav class="header__nav">
         <ul class="header__nav-list">
           <li class="header__nav-item"><a href="#especial" id="nav-nosaltres" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
-          <li class="header__nav-item"><a href="productes.html" id="nav-productes" class="header__nav-link" data-text="Productes">Productes</a></li>
+          <li class="header__nav-item"><a href="#productes" id="nav-productes" class="header__nav-link" data-text="Productes">Productes</a></li>
           <li class="header__nav-item"><a href="#especial" id="nav-especialitats" class="header__nav-link" data-text="Especialitats">Especialitats</a></li>
           <li class="header__nav-item"><a href="#contact" id="nav-contacte" class="header__nav-link" data-text="Contacte">Contacte</a></li>
         </ul>
@@ -74,7 +75,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
         <div class="header__menu-overlay">
           <nav class="header__menu-nav">
             <a href="#especial" class="header__menu-link" data-text="Nosaltres" onclick="document.getElementById('menu-toggle').checked = false">Nosaltres</a>
-            <a href="productes.html" class="header__menu-link" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
+            <a href="#productes" class="header__menu-link" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
             <a href="#especial" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
             <a href="#contact" class="header__menu-link" data-text="Contacte" onclick="document.getElementById('menu-toggle').checked = false">Contacte</a>
           </nav>
@@ -143,28 +144,28 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
 
         <div class="productes__wrap">
           <div class="productes__content">
-            <a href="#" aria-label="Ampolles de refresc àcides"><img src="img/apolles.png" alt="Ampolles de refresc àcides" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Coles" aria-label="Ampolles de refresc àcides"><img src="img/apolles.png" alt="Ampolles de refresc àcides" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Fruites del bosc"><img src="img/fruites.png" alt="Fruites del bosc" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Fruites" aria-label="Fruites del bosc"><img src="img/fruites.png" alt="Fruites del bosc" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Fulles de regalèssia"><img src="img/fulles.png" alt="Fulles de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Fulles" aria-label="Fulles de regalèssia"><img src="img/fulles.png" alt="Fulles de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Guixos amb pols de regalèssia"><img src="img/pols.png" alt="Guixos amb pols de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Pols" aria-label="Guix amb pols de regalèssia"><img src="img/pols.png" alt="Guix amb pols de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Guixos de regalèssia"><img src="img/guixos.png" alt="Guixos de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Guixos" aria-label="Guixos de regalèssia"><img src="img/guixos.png" alt="Guixos de regalèssia" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Maduixes"><img src="img/maduixes.png" alt="Maduixes" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Maduixes" aria-label="Maduixes àcides"><img src="img/maduixes.png" alt="Maduixes àcides" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Ossets de goma"><img src="img/ossets.png" alt="Ossets de goma" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Ossets" aria-label="Ossets àcids"><img src="img/ossets.png" alt="Ossets àcids" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
           <div class="productes__content">
-            <a href="#" aria-label="Perles dolces"><img src="img/perles.png" alt="Perles dolces" class="producte1" width="400" height="400" loading="lazy" /></a>
+            <a href="productes.html#Perles" aria-label="Perles de menta"><img src="img/perles.png" alt="Perles de menta" class="producte1" width="400" height="400" loading="lazy" /></a>
           </div>
         </div>
       </section>
@@ -266,7 +267,6 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
           <div class="parlem-container">
             <div class="box-pic1"></div>
             <div class="box-pic2"></div>
-            <a href="html/plaer.html"><button class="parlem-btn">Parlem?</button></a>
           </div>
         </section>
 
@@ -367,12 +367,6 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
     </footer>
 
 
-    <!-- Botó flotant de WhatsApp -->
-    <a href="https://wa.me/722812139" class="whatsapp-float" target="_blank" aria-label="Contacta'ns per WhatsApp">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.396.015 12.03a11.782 11.782 0 001.592 5.955L0 24l6.111-1.605a11.765 11.765 0 005.935 1.636h.005c6.634 0 12.032-5.396 12.035-12.03a11.81 11.81 0 00-3.486-8.484z" />
-      </svg>
-    </a>
 
     <script src="js/scripts.js"></script>
   </body>
