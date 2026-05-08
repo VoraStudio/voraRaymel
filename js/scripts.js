@@ -35,16 +35,40 @@ document.addEventListener("DOMContentLoaded", () => {
     anchor.addEventListener('click', function (e) {
       const target = this.getAttribute('href');
       
-      // Si l'enllaç és a una altra pàgina amb hash (ex: productes.html#Coles)
-      // no fem preventDefault si no estem a la pàgina de destí.
-      // Però aquí estem filtrant per href^="#", així que només són anclatges interns.
-      
-      e.preventDefault();
-      
+      // Si el target és només "#", anem a dalt de tot
       if (target === "#") {
+        e.preventDefault();
+        lenis.start(); // Assegurem que Lenis està actiu
         lenis.scrollTo(0);
-      } else {
-        lenis.scrollTo(target);
+        return;
+      }
+
+      // Si el target és un ID vàlid a la pàgina actual
+      if (target.startsWith("#") && target.length > 1) {
+        const targetEl = document.querySelector(target);
+        if (targetEl) {
+          e.preventDefault();
+          
+          // Si el menú mòbil està obert, el tanquem primer
+          const menuToggle = document.getElementById("menu-toggle");
+          if (menuToggle && menuToggle.checked) {
+            menuToggle.checked = false;
+            // Emetem l'event change manualment per disparar la lògica de lenis.start()
+            menuToggle.dispatchEvent(new Event('change'));
+          }
+
+          // Assegurem que Lenis està actiu abans de fer scroll
+          lenis.start();
+          
+          // Donem un marge mínim perquè es tanqui el menú o es processi el canvi d'estat
+          setTimeout(() => {
+            lenis.scrollTo(targetEl, {
+              offset: 0,
+              duration: 1.5,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+            });
+          }, 50);
+        }
       }
     });
   });
@@ -63,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ----- LOGICA MENU HAMBURGUESA ----- */
   if (menuToggle && menuBtn) {
-    const menuLinks = document.querySelectorAll(".header__menu-link");
+    const menuItems = document.querySelectorAll(".header__menu-logo, .header__menu-link");
 
     menuToggle.addEventListener("change", () => {
       const isOpen = menuToggle.checked;
@@ -71,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isOpen) {
         lenis.stop();
-        gsap.to(menuLinks, {
+        gsap.to(menuItems, {
           opacity: 1,
           y: 0,
           scale: 1,
@@ -82,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       } else {
         lenis.start();
-        gsap.to(menuLinks, {
+        gsap.to(menuItems, {
           opacity: 0,
           y: -20,
           scale: 0.95,
@@ -449,29 +473,10 @@ document.addEventListener("DOMContentLoaded", () => {
       let polsText = new SplitText(".Pols .textItem", { type: "chars, lines", mask: "lines" });
 
       tlItems
-        // La primera animació no hauria de fer un .from si volem que es vegi ja al entrar
-        // Però per mantenir l'estètica scrub, podem fer que el primer item estigui ja "revelat" al progrés 0
+        // El primer element (Guixos) ja és visible per defecte, eliminem els .from inicials
+        // perquè no aparegui buit al principi del scroll.
         .set(".Guixos", { autoAlpha: 1 })
-        .from(guixos.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 })
-        .from(
-          guixosText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Guixos .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Guixos .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Guixos .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<0.1")
-        .from(".Guixos .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 1.5 }, "<0.1")
-        .to({}, { duration: 1 })
+        .to({}, { duration: 1 }) 
 
         // Sortida Guixos ->
         .to(guixos.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
@@ -715,18 +720,33 @@ document.addEventListener("DOMContentLoaded", () => {
       const nextBtn = document.getElementById("next-item");
       const prevBtn = document.getElementById("prev-item");
 
-      function updateLayers() {
+      function updateLayers(direction = 1) {
         layers.forEach((layer, index) => {
-          if (index + 1 === currentLayer) {
-            gsap.set(layer, { display: "flex" });
-            gsap.to(layer, { autoAlpha: 1, duration: 0.5 });
-          } else {
-            gsap.to(layer, {
-              autoAlpha: 0,
-              duration: 0.5,
+          const isEntering = index + 1 === currentLayer;
+          const el = document.querySelector(layer);
+          if (!el) return;
+
+          if (isEntering) {
+            gsap.set(el, { 
+              display: "flex", 
+              xPercent: direction * 100, 
+              autoAlpha: 0 
+            });
+            gsap.to(el, { 
+              xPercent: 0, 
+              autoAlpha: 1, 
+              duration: 0.6, 
+              ease: "power3.out" 
+            });
+          } else if (el.style.display !== "none") {
+            gsap.to(el, { 
+              xPercent: direction * -100, 
+              autoAlpha: 0, 
+              duration: 0.6, 
+              ease: "power3.inOut",
               onComplete: () => {
-                gsap.set(layer, { display: "none" });
-              },
+                gsap.set(el, { display: "none" });
+              }
             });
           }
         });
@@ -735,12 +755,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (nextBtn && prevBtn) {
         nextBtn.addEventListener("click", () => {
           currentLayer = currentLayer < layers.length ? currentLayer + 1 : 1;
-          updateLayers();
+          updateLayers(1);
         });
 
         prevBtn.addEventListener("click", () => {
           currentLayer = currentLayer > 1 ? currentLayer - 1 : layers.length;
-          updateLayers();
+          updateLayers(-1);
         });
       }
     });
@@ -919,5 +939,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Iniciem el cicle cada 5 segons
     setInterval(cycleTestimonials, 5000);
+  }
+
+  // Gestió de Hash al carregar la pàgina (general)
+  const initialHash = window.location.hash;
+  if (initialHash && !document.querySelector(".items")) {
+    const targetEl = document.querySelector(initialHash);
+    if (targetEl) {
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          lenis.scrollTo(targetEl, {
+            offset: 0,
+            duration: 1.5,
+            immediate: false,
+          });
+        }, 500);
+      });
+    }
   }
 });

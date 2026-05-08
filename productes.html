@@ -46,22 +46,26 @@
       <!-- Menú Mòbil -->
       <div class="header__mobile-menu">
         <input type="checkbox" id="menu-toggle" class="header__checkbox" />
-        <label for="menu-toggle" class="header__menu-btn" aria-label="Obrir menú">
+        <label for="menu-toggle" class="header__menu-btn" id="menu-btn" aria-label="Obrir menú">
           <span class="header__menu-line"></span>
           <span class="header__menu-line"></span>
           <span class="header__menu-line"></span>
         </label>
         <div class="header__menu-overlay">
           <nav class="header__menu-nav">
-            <a href="index.html#nosaltres" class="header__menu-link" onclick="document.getElementById('menu-toggle').checked = false">Nosaltres</a>
-            <a href="productes.html" class="header__menu-link active" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
-            <a href="index.html#especial" class="header__menu-link" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
-            <a href="index.html#contact" class="header__menu-link" onclick="document.getElementById('menu-toggle').checked = false">Contacte</a>
+            <a href="index.html#hero" class="header__menu-logo" onclick="document.getElementById('menu-toggle').checked = false">
+              <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" width="120" height="40" />
+            </a>
+            <a href="index.html#especial" class="header__menu-link" data-text="Nosaltres" onclick="document.getElementById('menu-toggle').checked = false">Nosaltres</a>
+            <a href="productes.html" class="header__menu-link active" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
+            <a href="index.html#productes" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
+            <a href="index.html#contact" class="header__menu-link" data-text="Contacte" onclick="document.getElementById('menu-toggle').checked = false">Contacte</a>
           </nav>
         </div>
       </div>
     </header>
-
+    <!-- PRODUCTES
+  -->
     <main>
       <section class="items items-horizontal" id="items-scroll">
         <div class="items-wrap">

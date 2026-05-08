@@ -58,8 +58,8 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
       <nav class="header__nav">
         <ul class="header__nav-list">
           <li class="header__nav-item"><a href="#especial" id="nav-nosaltres" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
-          <li class="header__nav-item"><a href="#productes" id="nav-productes" class="header__nav-link" data-text="Productes">Productes</a></li>
-          <li class="header__nav-item"><a href="#especial" id="nav-especialitats" class="header__nav-link" data-text="Especialitats">Especialitats</a></li>
+          <li class="header__nav-item"><a href="productes.html" id="nav-productes" class="header__nav-link" data-text="Productes">Productes</a></li>
+          <li class="header__nav-item"><a href="#productes" id="nav-especialitats" class="header__nav-link" data-text="Especialitats">Especialitats</a></li>
           <li class="header__nav-item"><a href="#contact" id="nav-contacte" class="header__nav-link" data-text="Contacte">Contacte</a></li>
         </ul>
       </nav>
@@ -74,9 +74,12 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
         </label>
         <div class="header__menu-overlay">
           <nav class="header__menu-nav">
+            <a href="#hero" class="header__menu-logo" onclick="document.getElementById('menu-toggle').checked = false">
+              <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" width="120" height="40" />
+            </a>
             <a href="#especial" class="header__menu-link" data-text="Nosaltres" onclick="document.getElementById('menu-toggle').checked = false">Nosaltres</a>
-            <a href="#productes" class="header__menu-link" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
-            <a href="#especial" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
+            <a href="productes.html" class="header__menu-link" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
+            <a href="#productes" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
             <a href="#contact" class="header__menu-link" data-text="Contacte" onclick="document.getElementById('menu-toggle').checked = false">Contacte</a>
           </nav>
         </div>
