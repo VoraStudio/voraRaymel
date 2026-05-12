@@ -29,12 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
     lenis.raf(time * 1000);
   });
   gsap.ticker.lagSmoothing(0);
-  
+
   // Smooth Scroll per a enllaços interns amb Lenis
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const target = this.getAttribute('href');
-      
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      const target = this.getAttribute("href");
+
       // Si el target és només "#", anem a dalt de tot
       if (target === "#") {
         e.preventDefault();
@@ -48,24 +48,24 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetEl = document.querySelector(target);
         if (targetEl) {
           e.preventDefault();
-          
+
           // Si el menú mòbil està obert, el tanquem primer
           const menuToggle = document.getElementById("menu-toggle");
           if (menuToggle && menuToggle.checked) {
             menuToggle.checked = false;
             // Emetem l'event change manualment per disparar la lògica de lenis.start()
-            menuToggle.dispatchEvent(new Event('change'));
+            menuToggle.dispatchEvent(new Event("change"));
           }
 
           // Assegurem que Lenis està actiu abans de fer scroll
           lenis.start();
-          
+
           // Donem un marge mínim perquè es tanqui el menú o es processi el canvi d'estat
           setTimeout(() => {
             lenis.scrollTo(targetEl, {
               offset: 0,
               duration: 1.5,
-              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             });
           }, 50);
         }
@@ -434,16 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (target) {
           // Calculem el progrés basat en el nombre d'ítems (8 ítems)
           // Aproximadament cada ítem ocupa 1/8 de la línia de temps total (12 innerHeights)
-          const items = [
-            "#Guixos",
-            "#Ossets",
-            "#Perles",
-            "#Fruites",
-            "#Fulles",
-            "#Coles",
-            "#Maduixes",
-            "#Pols",
-          ];
+          const items = ["#Guixos", "#Ossets", "#Perles", "#Fruites", "#Fulles", "#Coles", "#Maduixes", "#Pols"];
           const index = items.indexOf(hash);
           if (index !== -1) {
             const scrollAmount = (window.innerHeight * 12 * index) / (items.length - 1);
@@ -476,7 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // El primer element (Guixos) ja és visible per defecte, eliminem els .from inicials
         // perquè no aparegui buit al principi del scroll.
         .set(".Guixos", { autoAlpha: 1 })
-        .to({}, { duration: 1 }) 
+        .to({}, { duration: 1 })
 
         // Sortida Guixos ->
         .to(guixos.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
@@ -727,26 +718,26 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!el) return;
 
           if (isEntering) {
-            gsap.set(el, { 
-              display: "flex", 
-              xPercent: direction * 100, 
-              autoAlpha: 0 
+            gsap.set(el, {
+              display: "flex",
+              xPercent: direction * 100,
+              autoAlpha: 0,
             });
-            gsap.to(el, { 
-              xPercent: 0, 
-              autoAlpha: 1, 
-              duration: 0.6, 
-              ease: "power3.out" 
+            gsap.to(el, {
+              xPercent: 0,
+              autoAlpha: 1,
+              duration: 0.6,
+              ease: "power3.out",
             });
           } else if (el.style.display !== "none") {
-            gsap.to(el, { 
-              xPercent: direction * -100, 
-              autoAlpha: 0, 
-              duration: 0.6, 
+            gsap.to(el, {
+              xPercent: direction * -100,
+              autoAlpha: 0,
+              duration: 0.6,
               ease: "power3.inOut",
               onComplete: () => {
                 gsap.set(el, { display: "none" });
-              }
+              },
             });
           }
         });
@@ -876,12 +867,16 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const btn = contactForm.querySelector(".form-btn");
-      const btnText = btn.querySelector(".form-btn__text");
-      const originalText = btnText.textContent;
+      const btn = contactForm.querySelector(".moneta-btn") || contactForm.querySelector(".form-btn");
+      const btnText = btn.querySelector(".form-btn__text") || btn;
+      const originalText = btn.querySelector(".form-btn__text") ? btnText.textContent : btn.textContent;
 
       btn.disabled = true;
-      btnText.textContent = "Enviant...";
+      if (btn.querySelector(".form-btn__text")) {
+        btnText.textContent = "Enviant...";
+      } else {
+        btn.textContent = "Sending...";
+      }
 
       try {
         /*
@@ -898,7 +893,11 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("Error al enviar el missatge. Torna-ho a provar.", "error");
       } finally {
         btn.disabled = false;
-        btnText.textContent = originalText;
+        if (btn.querySelector(".form-btn__text")) {
+          btnText.textContent = originalText;
+        } else {
+          btn.textContent = originalText;
+        }
       }
     });
 
@@ -956,5 +955,152 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 500);
       });
     }
+  }
+
+  // --- CONTACT INFO SECTION ANIMATIONS ---
+  const contactInfoSection = document.querySelector(".contact-info-section");
+  if (contactInfoSection) {
+    // Persiana effect on title lines (rotateX: -90 = closed blind)
+    gsap.set(".contact-info-section .title-line", {
+      opacity: 0,
+      rotationX: -90,
+      transformOrigin: "top center",
+    });
+
+    // Subtitle and right side start hidden
+    gsap.set(
+      ".contact-info__subtitle, .contact-info__right, .contact-info__desc, .contact-info__contact-item",
+      {
+        opacity: 0,
+        y: 30,
+      },
+    );
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: contactInfoSection,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    // 1. Persiana: blinds open from top
+    tl.to(".contact-info-section .title-line", {
+      duration: 1.4,
+      opacity: 1,
+      rotationX: 0,
+      ease: "power3.out",
+      stagger: { each: 0.15, from: "start" },
+    })
+      // 2. Subtitle fades in
+      .to(
+        ".contact-info__subtitle",
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.7",
+      )
+      // 3. Right column (desc + contact items)
+      .to(
+        ".contact-info__right",
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.6",
+      )
+      .to(
+        [".contact-info__desc", ".contact-info__contact-item"],
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power3.out",
+        },
+        "-=0.4",
+      );
+  }
+
+  // Floating icon animation (más sutil)
+  const contactIcon = document.querySelector(".title-line__icon");
+  if (contactIcon) {
+    gsap.to(contactIcon, {
+      y: -10,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }
+
+  // Refresh ScrollTrigger after all loads
+  window.addEventListener("load", () => {
+    ScrollTrigger.refresh();
+  });
+
+  // Contact Banner Parallax
+  const contactBannerImg = document.querySelector(".contact-info__banner-img");
+  if (contactBannerImg) {
+    gsap.to(contactBannerImg, {
+      y: "30%",
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".contact-info__banner",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+  }
+
+  // Contact Form Animations
+  const contactFormSection = document.querySelector(".contact-form-section");
+  if (contactFormSection) {
+    const tlForm = gsap.timeline({
+      scrollTrigger: {
+        trigger: contactFormSection,
+        start: "top 75%",
+      },
+    });
+
+    // 1. Reveal Card
+    tlForm.from(".contact-form__card", {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    });
+
+    // 2. Reveal Info Content (Left side of card)
+    tlForm.from(
+      [".contact-form__title", ".contact-form__subtitle", ".contact-form__detail", ".contact-form__social"],
+      {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power3.out",
+      },
+      "-=0.6",
+    );
+
+    // 3. Reveal Form Groups (Right side of card)
+    tlForm.from(
+      ".contact-form__group",
+      {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power3.out",
+      },
+      "-=0.8",
+    );
   }
 });
