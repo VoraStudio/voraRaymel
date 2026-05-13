@@ -1,14 +1,8 @@
-<!-- 
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-
-// Generem un token CSRF basat en el secret del .env i la data del dia
-// Això ens permet validar-lo sense dependre de la sessió de PHP
-$csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
-?>
- -->
+$csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
 
 <!doctype html>
 <html lang="ca">
@@ -26,7 +20,10 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
 
     <!-- Open Graph -->
     <meta property="og:title" content="Raymel Sweet Sensations | Dolços Premium Europeus" />
-    <meta property="og:description" content="Seleccionadors de llaminadures premium d'Europa. Descobreix moments de plaer amb dolços exclusius per a paladars exigents." />
+    <meta
+      property="og:description"
+      content="Seleccionadors de llaminadures premium d'Europa. Descobreix moments de plaer amb dolços exclusius per a paladars exigents."
+    />
     <meta property="og:url" content="https://raymel.es" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ca_ES" />
@@ -40,8 +37,8 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
     <link rel="canonical" href="https://raymel.es" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="img/icones svg/icone principal.svg" />
-    <link rel="apple-touch-icon" href="img/icones svg/icone principal.svg" />
+    <link rel="icon" type="image/png" sizes="512x512" href="img/android-chrome-512x512.png" />
+    <link rel="apple-touch-icon" href="img/android-chrome-512x512.png" />
 
     <!-- Google Fonts: Albert Sans & Fraunces -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,25 +61,24 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
     <!-- CSS Principal -->
     <link rel="stylesheet" href="css/styles.css" />
 
-    <!-- Google reCAPTCHA -->
-    <!-- Google reCAPTCH->: https://www.google.com/recaptcha/admin/site/742576957 -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Google reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $_ENV['RECAPTCHA_SITE_KEY']; ?>" async defer></script>
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Raymel Sweet Sensations",
-      "url": "https://raymel.es",
-      "email": "hola@raymel.es",
-      "description": "Seleccionadors de llaminadures premium d'Europa.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Barcelona",
-        "addressCountry": "ES"
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Raymel Sweet Sensations",
+        "url": "https://raymel.es",
+        "email": "marketing@raymel.cat",
+        "description": "Seleccionadors de llaminadures premium d'Europa.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Barcelona",
+          "addressCountry": "ES"
+        }
       }
-    }
     </script>
   </head>
   <body>
@@ -400,12 +396,12 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
               d'intencions.
             </p>
             <div class="contact-info__contact-list">
-              <a href="mailto:hola@raymel.es" class="contact-info__contact-item">
+              <a href="mailto:marketing@raymel.cat" class="contact-info__contact-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <span>hola@raymel.es</span>
+                <span>marketing@raymel.cat</span>
               </a>
               <a href="#" class="contact-info__contact-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -435,7 +431,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
               <div class="contact-form__details">
                 <div class="contact-form__detail">
                   <span class="contact-form__detail-label">Email</span>
-                  <a href="mailto:hola@raymel.es" class="contact-form__detail-value">hola@raymel.es</a>
+                  <a href="mailto:marketing@raymel.cat" class="contact-form__detail-value">marketing@raymel.cat</a>
                 </div>
                 <div class="contact-form__detail">
                   <span class="contact-form__detail-label">Tel</span>
@@ -480,6 +476,8 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
                   <input type="text" name="honeypot" value="" />
                 </div>
                 <input type="hidden" name="recaptcha_response" id="recaptcha_response" />
+                <input type="hidden" name="topic" value="Contacte web" />
+                <input type="hidden" name="subject" value="Nou missatge des de Raymel" />
 
                 <div class="contact-form__row">
                   <div class="contact-form__group">
@@ -517,6 +515,22 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
       </section>
     </main>
 
+    <!-- COOKIE BANNER RGPD -->
+    <div class="cookie-banner" id="cookie-banner">
+      <div class="cookie-banner__inner">
+        <div class="cookie-banner__content">
+          <p class="cookie-banner__text">
+            Utilitzem cookies pròpies i de tercers per millorar la teva experiència. Si continues navegant, acceptes l'ús de cookies.
+          </p>
+          <a href="cookies.html" class="cookie-banner__link">Més informació</a>
+        </div>
+        <div class="cookie-banner__actions">
+          <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookie-accept">Acceptar totes</button>
+          <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookie-reject">Rebutjar</button>
+        </div>
+      </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer-fixed">
       <div class="footer-fixed__inner">
@@ -541,20 +555,40 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
             <a href="cookies.html" class="footer-fixed__link">Més informació</a>
             <div class="footer-fixed__socials">
               <a href="#" class="social-link" aria-label="Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
               <a href="#" class="social-link" aria-label="Facebook">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                 </svg>
               </a>
               <a href="#" class="social-link" aria-label="WhatsApp">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.396.015 12.03a11.782 11.782 0 001.592 5.955L0 24l6.111-1.605a11.765 11.765 0 005.935 1.636h.005c6.634 0 12.032-5.396 12.035-12.03a11.81 11.81 0 00-3.486-8.484z" />
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.396.015 12.03a11.782 11.782 0 001.592 5.955L0 24l6.111-1.605a11.765 11.765 0 005.935 1.636h.005c6.634 0 12.032-5.396 12.035-12.03a11.81 11.81 0 00-3.486-8.484z"
+                  />
                 </svg>
               </a>
             </div>
@@ -563,11 +597,19 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']);
 
         <div class="footer-fixed__bottom">
           <p>© 2026 Raymel Sweet Sensations. Tots els drets reservats.</p>
-          <p class="footer-fixed__credit">Creada per <a href="#" class="footer-fixed__credit-link"><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="auto" loading="lazy" /></a></p>
+          <p class="footer-fixed__credit">
+            Creada per
+            <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-fixed__credit-link"
+              ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="auto" loading="lazy"
+            /></a>
+          </p>
         </div>
       </div>
     </footer>
 
+    <script>
+      window.RECAPTCHA_SITE_KEY = "<?php echo $_ENV['RECAPTCHA_SITE_KEY']; ?>";
+    </script>
     <script src="js/scripts.js"></script>
   </body>
 </html>

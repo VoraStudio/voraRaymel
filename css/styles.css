@@ -731,11 +731,15 @@ img {
 
 .morph-container {
   width: 100%;
-  max-width: 450px;
-  opacity: 1; /* Opacitat completa per petició de l'usuari */
-  /* border: solid red 1px; */
-  margin-top: -2rem;
-  transform: translateX(10px); /* Ajust cap a la dreta per centrar millor en mòbil */
+  max-width: 320px;
+  opacity: 1;
+  margin: 0 auto;
+}
+
+.morph-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* .especial__img {
@@ -789,6 +793,26 @@ img {
   transform: translateY(-10%);
 }
 
+/* Tablet: el SVG comença a posar-se al costat */
+@media (min-width: 600px) {
+  .especial-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: var(--s-16) 1.5rem;
+  }
+
+  .morph-container {
+    max-width: clamp(240px, 40vw, 350px);
+  }
+
+  .special-col1 {
+    flex: 1 1 280px;
+  }
+}
+
 /* Desktop: Millora progressiva */
 @media (min-width: 1024px) {
   .especial-container {
@@ -803,11 +827,10 @@ img {
 
   .morph-container {
     position: absolute;
-    top: 022%;
-    right: 5%;
-    max-width: 650px;
-    opacity: 1;
-    /* border: solid rgb(11, 177, 127) 1px; */
+    top: 50%;
+    right: 3%;
+    max-width: clamp(320px, 35vw, 550px);
+    transform: translateY(-50%);
   }
 
   .special-col1 {
@@ -2178,52 +2201,192 @@ a.contact-form__detail-value:hover {
   }
 }
 
-/* ========================= ALERTS MODERNS ======================== */
+/* ========================= TOAST ELEGANT ======================== */
 .toast-container {
   position: fixed;
-  top: 30px;
-  right: 30px;
-  z-index: 9999;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 12px;
+  pointer-events: none;
+  max-width: calc(100vw - 48px);
 }
 
 .toast {
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
   min-width: 320px;
-  padding: 1.2rem 1.8rem;
+  max-width: 420px;
+  padding: 1rem 1rem 1rem 1.25rem;
   border-radius: 16px;
-  background: white;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   color: var(--fons-violeta);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
-  align-items: center;
-  gap: 15px;
-  transform: translateX(130%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  border-left: 8px solid var(--fons-violeta);
+  align-items: flex-start;
+  gap: 12px;
+  transform: translateX(calc(100% + 48px)) scale(0.92);
+  opacity: 0;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .toast.show {
-  transform: translateX(0);
+  transform: translateX(0) scale(1);
+  opacity: 1;
+}
+
+.toast--dismissing {
+  transform: translateX(calc(100% + 48px)) scale(0.92) !important;
+  opacity: 0 !important;
+  transition:
+    transform 0.35s cubic-bezier(0.55, 0, 1, 0.3),
+    opacity 0.3s ease !important;
 }
 
 .toast--success {
-  border-color: #2ecc71;
+  border-left: 4px solid #2ecc71;
 }
 .toast--error {
-  border-color: #e74c3c;
+  border-left: 4px solid #e74c3c;
 }
 .toast--warning {
-  border-color: #f1c40f;
+  border-left: 4px solid #f1c40f;
 }
 
 .toast__icon {
-  font-size: 1.6rem;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
 }
+
+.toast--success .toast__icon {
+  color: #2ecc71;
+}
+.toast--error .toast__icon {
+  color: #e74c3c;
+}
+.toast--warning .toast__icon {
+  color: #f1c40f;
+}
+
 .toast__message {
-  font-weight: 600;
-  font-size: 1rem;
+  flex: 1;
+  font-weight: 500;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--fons-violeta);
+  margin: 0;
+  padding-right: 4px;
+}
+
+.toast__close {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: rgba(57, 40, 108, 0.3);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.toast:hover .toast__close {
+  opacity: 1;
+}
+
+.toast__close:hover {
+  color: rgba(57, 40, 108, 0.7);
+}
+
+.toast__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(57, 40, 108, 0.08);
+}
+
+.toast--success .toast__progress {
+  background: rgba(46, 204, 113, 0.15);
+}
+.toast--error .toast__progress {
+  background: rgba(231, 76, 60, 0.15);
+}
+.toast--warning .toast__progress {
+  background: rgba(241, 196, 15, 0.15);
+}
+
+.toast__progress::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  border-radius: 0 2px 2px 0;
+}
+
+.toast--success .toast__progress::after {
+  background: #2ecc71;
+}
+.toast--error .toast__progress::after {
+  background: #e74c3c;
+}
+.toast--warning .toast__progress::after {
+  background: #f1c40f;
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .toast {
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+    padding: 0.85rem 0.85rem 0.85rem 1rem;
+    border-radius: 14px;
+    transform: translateY(calc(-100% - 24px)) scale(0.95);
+  }
+
+  .toast.show {
+    transform: translateY(0) scale(1);
+  }
+
+  .toast--dismissing {
+    transform: translateY(calc(-100% - 24px)) scale(0.95) !important;
+  }
+
+  .toast__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .toast__message {
+    font-size: 0.85rem;
+  }
 }
 
 /* ----- INICI SECCIÓ FOOTER ----- */
@@ -2466,5 +2629,113 @@ a.contact-form__detail-value:hover {
 
   .footer-fixed__bottom {
     margin-top: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   COOKIE BANNER RGPD
+   ========================================================================== */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-cookie, 9999);
+  background: var(--color-surface, #1a1a2e);
+  color: var(--color-text, #f5f5f5);
+  padding: var(--spacing-16, 1rem) var(--spacing-24, 1.5rem);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cookie-banner.is-visible {
+  transform: translateY(0);
+}
+
+.cookie-banner__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-16, 1rem);
+}
+
+.cookie-banner__content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8, 0.5rem) var(--spacing-16, 1rem);
+  flex: 1;
+  min-width: 240px;
+}
+
+.cookie-banner__text {
+  margin: 0;
+  font-size: clamp(0.75rem, calc(0.5vw + 0.5rem), 0.875rem);
+  line-height: 1.5;
+  color: var(--color-text-secondary, #b0b0b0);
+}
+
+.cookie-banner__link {
+  color: var(--color-accent, #e8a0b4);
+  font-size: clamp(0.75rem, calc(0.5vw + 0.5rem), 0.875rem);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s ease;
+}
+
+.cookie-banner__link:hover {
+  opacity: 0.8;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  gap: var(--spacing-8, 0.5rem);
+  flex-shrink: 0;
+}
+
+.cookie-banner__btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  font-size: clamp(0.75rem, calc(0.5vw + 0.5rem), 0.875rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-family: inherit;
+}
+
+.cookie-banner__btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.cookie-banner__btn--accept {
+  background: var(--color-accent, #e8a0b4);
+  color: var(--color-surface, #1a1a2e);
+}
+
+.cookie-banner__btn--reject {
+  background: transparent;
+  color: var(--color-text-secondary, #b0b0b0);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+}
+
+@media (max-width: 640px) {
+  .cookie-banner__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cookie-banner__content {
+    justify-content: center;
+  }
+
+  .cookie-banner__actions {
+    width: 100%;
+    justify-content: center;
   }
 }

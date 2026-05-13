@@ -769,19 +769,6 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     });
     tlparlem
-      // Apareix el botó
-      .from(
-        ".parlem-btn",
-        {
-          opacity: 0,
-          scale: 0,
-          duration: 0.8,
-          ease: "back.out(1.7)",
-        },
-        0.2,
-      )
-      // Pausa central més curta
-      .to({}, { duration: 0.5 })
       // Sortida: Cada div cap al seu costat (Revela testimonis)
       .to(".box-pic1", {
         xPercent: -100,
@@ -809,21 +796,22 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         "-=0.2", // Comença una mica abans que acabin d'obrir-se
       )
-      .to(
-        ".parlem-btn",
-        {
-          opacity: 0,
-          scale: 0.5,
-          duration: 0.8,
-        },
-        "<",
-      );
   }
 
   // ========================= FORM LOGIC ========================
   const contactForm = document.getElementById("contact-form-element");
 
-  const showToast = (message, type = "success") => {
+  // SVG per a cada tipus de toast
+  const TOAST_ICONS = {
+    success:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>',
+    error:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>',
+    warning:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  };
+
+  const showToast = (message, type = "success", duration = 4000) => {
     let container = document.querySelector(".toast-container");
     if (!container) {
       container = document.createElement("div");
@@ -833,75 +821,105 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const toast = document.createElement("div");
     toast.className = `toast toast--${type}`;
-
-    const icons = {
-      success: "✓",
-      error: "✕",
-      warning: "⚠",
-    };
-
     toast.innerHTML = `
-    <span class="toast__icon">${icons[type]}</span>
-    <span class="toast__message">${message}</span>
-  `;
+      <div class="toast__icon">${TOAST_ICONS[type]}</div>
+      <p class="toast__message">${message}</p>
+      <button class="toast__close" aria-label="Tancar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"/></svg>
+      </button>
+      <div class="toast__progress"></div>
+    `;
 
     container.appendChild(toast);
 
-    setTimeout(() => toast.classList.add("show"), 100);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.classList.add("show");
+      });
+    });
 
-    setTimeout(() => {
-      toast.classList.remove("show");
-      setTimeout(() => toast.remove(), 500);
-    }, 4000);
+    const progress = toast.querySelector(".toast__progress");
+    if (progress) {
+      progress.style.transition = `width ${duration}ms linear`;
+      requestAnimationFrame(() => {
+        progress.style.width = "0%";
+      });
+    }
+
+    const timeoutId = setTimeout(() => dismissToast(toast), duration);
+
+    const closeBtn = toast.querySelector(".toast__close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => {
+        clearTimeout(timeoutId);
+        dismissToast(toast);
+      });
+    }
   };
 
+  const dismissToast = (toast) => {
+    if (toast.classList.contains("toast--dismissing")) return;
+    toast.classList.add("toast--dismissing");
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 400);
+  };
+
+  // --- Submit handler ---
   if (contactForm) {
     contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData);
+      const privacy = formData.get("privacy");
 
-      if (!data.privacy) {
-        showToast("Has d’acceptar la política de privadesa", "warning");
+      if (!privacy) {
+        showToast("Has d'acceptar la política de privadesa", "warning");
         return;
       }
 
-      const btn = contactForm.querySelector(".moneta-btn") || contactForm.querySelector(".form-btn");
-      const btnText = btn.querySelector(".form-btn__text") || btn;
-      const originalText = btn.querySelector(".form-btn__text") ? btnText.textContent : btn.textContent;
+      const btn = contactForm.querySelector(".contact-form__btn");
+      const btnSpan = btn ? btn.querySelector("span") : null;
+      const originalText = btnSpan ? btnSpan.textContent : "";
 
-      btn.disabled = true;
-      if (btn.querySelector(".form-btn__text")) {
-        btnText.textContent = "Enviant...";
-      } else {
-        btn.textContent = "Sending...";
-      }
+      if (btn) btn.disabled = true;
+      if (btnSpan) btnSpan.textContent = "Enviant...";
 
       try {
-        /*
-      if (typeof grecaptcha !== 'undefined') {
-        const token = await grecaptcha.execute('TU_SITE_KEY', {action: 'submit'});
-        formData.append('recaptcha_response', token);
-      }
-      */
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        showToast("Missatge enviat correctament!", "success");
-        contactForm.reset();
-      } catch (error) {
-        showToast("Error al enviar el missatge. Torna-ho a provar.", "error");
-      } finally {
-        btn.disabled = false;
-        if (btn.querySelector(".form-btn__text")) {
-          btnText.textContent = originalText;
-        } else {
-          btn.textContent = originalText;
+        // reCAPTCHA v3: obtiene token con la site key inyectada por PHP
+        const siteKey = window.RECAPTCHA_SITE_KEY;
+        if (typeof grecaptcha !== "undefined" && grecaptcha.execute && siteKey && siteKey !== "POSA_AQUI_LA_TEUA_SITE_KEY") {
+          try {
+            const token = await grecaptcha.execute(siteKey, { action: "submit" });
+            formData.set("recaptcha_response", token);
+          } catch (e) {
+            console.warn("reCAPTCHA no disponible, se omite:", e);
+          }
         }
+
+        const response = await fetch("php/contacte.php", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.ok) {
+          showToast(result.message || "Missatge enviat correctament!", "success");
+          contactForm.reset();
+        } else {
+          showToast(result.error || "Error en enviar el missatge.", "error");
+        }
+      } catch (error) {
+        showToast("Error de connexió amb el servidor. Torna-ho a provar.", "error");
+      } finally {
+        if (btn) btn.disabled = false;
+        if (btnSpan) btnSpan.textContent = originalText;
       }
     });
-
-    //initParticles();
   }
 
   // Lògica per a l'slider de testimonis (canvi cíclic)
@@ -1102,5 +1120,34 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       "-=0.8",
     );
+  }
+
+  // ======================================================================
+  // COOKIE BANNER RGPD
+  // ======================================================================
+  const cookieBanner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("cookie-accept");
+  const rejectBtn = document.getElementById("cookie-reject");
+
+  const cookieConsent = localStorage.getItem("raymel_cookies");
+
+  if (!cookieConsent) {
+    setTimeout(() => {
+      cookieBanner.classList.add("is-visible");
+    }, 1000);
+  }
+
+  if (acceptBtn) {
+    acceptBtn.addEventListener("click", () => {
+      localStorage.setItem("raymel_cookies", "accepted");
+      cookieBanner.classList.remove("is-visible");
+    });
+  }
+
+  if (rejectBtn) {
+    rejectBtn.addEventListener("click", () => {
+      localStorage.setItem("raymel_cookies", "rejected");
+      cookieBanner.classList.remove("is-visible");
+    });
   }
 });
