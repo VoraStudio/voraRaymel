@@ -414,7 +414,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         </div>
 
         <div class="contact-info__banner">
-          <img src="img/candies-banner.png" alt="Raymel Candies" class="contact-info__banner-img" />
+          <img src="img/candies-banner.webp" alt="Raymel Candies" class="contact-info__banner-img" />
         </div>
       </section>
 
