@@ -28,6 +28,8 @@
   --s-6: 3rem; /* 48px */
   --s-8: 4rem; /* 64px */
   --s-10: 5rem; /* 80px */
+  --s-12: 6rem; /* 96px */
+  --s-16: 8rem; /* 128px */
 
   /* Transicions */
   --t-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -42,6 +44,8 @@
   --z-overlay: 2000;
   --z-btn: 3000;
   --z-cursor: 10000;
+  --z-toast: 100000;
+  --z-cookie: 9999;
 
   /* Altres */
   --radius-s: 4px;
@@ -51,6 +55,17 @@
   /* Variables dinàmiques per GSAP */
   --porcenatge-titol-Hero: 0%;
   --porcenatge2-titol-Hero: 100%;
+
+  /* Cookie banner */
+  --color-surface: #1a1a2e;
+  --color-text: #f5f5f5;
+  --color-text-secondary: #b0b0b0;
+  --color-accent: #e8a0b4;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --spacing-8: 0.5rem;
+  --spacing-16: 1rem;
+  --spacing-24: 1.5rem;
+  --radius-sm: 4px;
 }
 
 * {
@@ -59,8 +74,20 @@
   box-sizing: border-box;
 }
 
+/* Screen-reader only: visually hidden, accessible to AT */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 html {
-  overflow-x: hidden;
   scroll-behavior: initial; /* Lenis gestiona el scroll */
 }
 
@@ -441,7 +468,8 @@ img {
 .header__menu-logo {
   display: block;
   margin: 0 auto var(--s-6);
-  width: 250px; /* Més gran */
+  width: 250px;
+  max-width: 80%;
   opacity: 0;
   transform: translateY(-320px) scale(0.9);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2374,8 +2402,8 @@ a.contact-form__detail-value:hover {
 }
 
 .contact-form__social-link {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2582,7 +2610,7 @@ a.contact-form__detail-value:hover {
   position: fixed;
   top: 24px;
   right: 24px;
-  z-index: 99999;
+  z-index: var(--z-toast);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -2922,8 +2950,8 @@ a.contact-form__detail-value:hover {
 }
 
 .social-link {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3113,5 +3141,16 @@ a.contact-form__detail-value:hover {
   .cookie-banner__actions {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* === BREAKPOINTS EXTRA PETITS === */
+@media (max-width: 380px) {
+  .header__menu-logo {
+    max-width: 70%;
+  }
+
+  .header__menu-link {
+    font-size: clamp(1.2rem, calc(4vw + 0.5rem), 1.6rem);
   }
 }

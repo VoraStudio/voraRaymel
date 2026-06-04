@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Registrar Plugins
-  gsap.registerPlugin(ScrollTrigger, SplitText);
+  gsap.registerPlugin(ScrollTrigger, SplitText, MorphSVGPlugin);
 
   // Constants de disseny (Centralització)
   const DURATION = {
@@ -15,20 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     smoothWheel: true,
+    sync: true,
   });
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  }
-  requestAnimationFrame(raf);
-
-  // Sincronitzar ScrollTrigger amb Lenis
+  // Sincronitzar Lenis amb GSAP ticker (una sola font de veritat)
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((time) => {
     lenis.raf(time * 1000);
   });
-  gsap.ticker.lagSmoothing(0);
 
   // Smooth Scroll per a enllaços interns amb Lenis
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -180,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .from(
         ".hero__img",
         {
-          y: -window.innerHeight,
+          yPercent: -100,
           scale: 0.5,
           rotation: 160,
           opacity: 0,
@@ -273,19 +267,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ----- INICI ANIMACIONS SECCIONS ----- */
   const plaerTitleEl = document.querySelector(".plaer__title");
   if (plaerTitleEl) {
-    const splitPlaer = new SplitText(plaerTitleEl, { type: "chars" });
-    gsap.from(splitPlaer.chars, {
-      y: 50,
-      opacity: 0,
-      stagger: 0.02,
-      duration: DURATION.NORMAL,
-      ease: EASE,
-      scrollTrigger: {
-        trigger: ".plaer",
-        start: "top 70%",
-      },
-    });
-
     const splitChars = new SplitText(plaerTitleEl, { type: "chars, lines", mask: "lines" });
     gsap.from(splitChars.chars, {
       scrollTrigger: {

@@ -17,6 +17,9 @@
     <meta property="og:url" content="https://raymel.es/productes" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ca_ES" />
+    <meta property="og:image" content="https://raymel.es/img/android-chrome-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -145,6 +148,7 @@
   -->
     <main>
       <section class="items items-horizontal" id="items-scroll">
+        <h1 class="sr-only" data-i18n="nav-productes">Productes</h1>
         <div class="items-wrap">
           <div class="items-nav-mobile">
             <button id="prev-item" aria-label="Anterior">
@@ -191,7 +195,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/guixos.png" alt="Guixos de regalèssia dolços Raymel" />
+                <img src="img/guixos.png" alt="Guixos de regalèssia dolços Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -208,7 +212,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/ossets.png" alt="Ossets àcids Raymel" />
+                <img src="img/ossets.png" alt="Ossets àcids Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -224,7 +228,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/perles.png" alt="Perles de menta Raymel" />
+                <img src="img/perles.png" alt="Perles de menta Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -241,7 +245,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/fruites.png" alt="Fruites del bosc Raymel" />
+                <img src="img/fruites.png" alt="Fruites del bosc Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -258,7 +262,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/fulles.png" alt="Fulla de regalèssia Raymel" />
+                <img src="img/fulles.png" alt="Fulla de regalèssia Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -275,7 +279,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/apolles.png" alt="Ampolles de refrescs àcids Raymel" />
+                <img src="img/apolles.png" alt="Ampolles de refrescs àcids Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -292,7 +296,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/maduixes.png" alt="Maduixes Raymel" />
+                <img src="img/maduixes.png" alt="Maduixes Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -309,7 +313,7 @@
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
-                <img src="img/pols.png" alt="Guix amb pols de regalèssia Raymel" />
+                <img src="img/pols.png" alt="Guix amb pols de regalèssia Raymel" width="400" height="400" loading="lazy" />
               </div>
             </div>
           </div>
@@ -321,14 +325,14 @@
     <div class="cookie-banner" id="cookie-banner">
       <div class="cookie-banner__inner">
         <div class="cookie-banner__content">
-          <p class="cookie-banner__text">
+          <p class="cookie-banner__text" data-i18n="cookie-text">
             Utilitzem cookies pròpies i de tercers per millorar la teva experiència. Si continues navegant, acceptes l'ús de cookies.
           </p>
-          <a href="cookies.html" class="cookie-banner__link">Més informació</a>
+          <a href="cookies.html" class="cookie-banner__link" data-i18n="cookie-more">Més informació</a>
         </div>
         <div class="cookie-banner__actions">
-          <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookie-accept">Acceptar totes</button>
-          <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookie-reject">Rebutjar</button>
+          <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookie-accept" data-i18n="cookie-accept">Acceptar totes</button>
+          <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookie-reject" data-i18n="cookie-reject">Rebutjar</button>
         </div>
       </div>
     </div>
@@ -339,7 +343,7 @@
         <div class="footer-fixed__grid">
           <!-- Brand -->
           <div class="footer-fixed__brand">
-            <a href="https://www.comercialros.cat/" target="_blank" rel="noopener noreferrer"><img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="auto" loading="lazy" /></a>
+            <a href="https://www.comercialros.cat/" target="_blank" rel="noopener noreferrer"><img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="120" loading="lazy" /></a>
             <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel" class="footer-fixed__logo" width="120" height="40" />
           </div>
 
@@ -389,7 +393,7 @@
           <p class="footer-fixed__credit">
             <span data-i18n="footer-credit">Creada per</span>
             <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-fixed__credit-link"
-              ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="auto" loading="lazy"
+              ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="26" loading="lazy"
             /></a>
           </p>
         </div>

@@ -2,7 +2,13 @@
 /**
  * TEST MAIL SCRIPT
  * Prova de l'enviament de correu amb PHPMailer i .env
+ * NOMÉS accessible en localhost per seguretat.
  */
+
+// Protegir: només localhost
+if (!in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1'])) {
+    die('Accés denegat.');
+}
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -18,8 +24,8 @@ $dotenv->load();
 $mail = new PHPMailer(true);
 
 try {
-    // Activar debug per veure el detall de la connexió
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;  
+    // Activar debug per veure el detall de la connexió (només localhost)
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
     $mail->Host       = $_ENV['SMTP_HOST'];
     $mail->SMTPAuth   = true;

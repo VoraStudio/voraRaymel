@@ -27,6 +27,9 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
     <meta property="og:url" content="https://raymel.es" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ca_ES" />
+    <meta property="og:image" content="https://raymel.es/img/android-chrome-512x512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -49,11 +52,11 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
     />
 
     <!-- Biblioteques GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/MorphSVGPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
 
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
@@ -307,28 +310,6 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
               ></path>
             </svg>
           </div>
-
-          <!-- <div class="special-bg">
-          <div class="special-col1">
-              <h2 class="especial__title">Regala't un <br />moment de plaer</h2>
-              <div class="especial__img especial__img--violet"></div>
-            </div>
-
-          <div class="special-col2">
-            <h2 class="especial__text">Perquè créixer no és renunciar al dolç</h2>
-            <p class="especial__p">
-              A Raymel recorrem Europa a la recerca dels millors gustos. No qualsevol gust, sinó aquell que et fa tancar els ulls,
-              que et torna a aquell calaix de casa l'àvia, que et fa fer un "mmm" sense demanar permís. Som seleccionadors de
-              plaers petits, d'aquells que no ocupen lloc pero que omplen molt. Perquè en un món que no para, aturar-se per una
-              llaminadura és gairebé un acte revolucionari.
-            </p>
-            <p class="especial__p">
-              Les nostres xuxes no són un snack, són una declaració d'intencions. La de qui sap que mereix quelcom bo, ara, sense
-              esperar l'ocasió especial. Dolços per a paladars adults que, de tant en tant, necessiten reconnectar amb el nen que
-              porten a dins. Perquè quan algú diu "és un plaer assaborir-te", ja saps com respondrem: el plaer és meu.
-            </p>
-          </div>
-        </div> -->
         </div>
       </section>
 
@@ -550,7 +531,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         <div class="footer-fixed__grid">
           <!-- Brand -->
           <div class="footer-fixed__brand">
-            <a href="https://www.comercialros.cat/" target="_blank" rel="noopener noreferrer"><img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="auto" loading="lazy" /></a>
+            <a href="https://www.comercialros.cat/" target="_blank" rel="noopener noreferrer"><img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="120" loading="lazy" /></a>
             <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel" class="footer-fixed__logo" width="120" height="40" />
           </div>
 
@@ -600,7 +581,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
           <p class="footer-fixed__credit">
             <span data-i18n="footer-credit">Creada per</span>
             <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-fixed__credit-link"
-              ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="auto" loading="lazy"
+              ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="26" loading="lazy"
             /></a>
           </p>
         </div>

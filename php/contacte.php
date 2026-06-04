@@ -46,7 +46,6 @@ if (!$is_localhost) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Solució per a errors SSL en XAMPP
     $response = curl_exec($ch);
 
     if (curl_errno($ch)) {
@@ -79,6 +78,11 @@ if (isset($_SESSION['last_submit_time'])) {
 
 // 2. VALIDACIÓ CSRF (Stateless HMAC)
 $csrf_secret = $_ENV['CSRF_TOKEN_SECRET'] ?? '';
+if (strlen($csrf_secret) < 32) {
+    error_log("Raymel CRITICAL: CSRF_TOKEN_SECRET is missing or too short");
+    echo json_encode(['ok' => false, 'error' => 'Error de configuració de seguretat. Contacta amb l\'administrador.']);
+    exit;
+}
 $token_rebut = $_POST['csrf_token'] ?? '';
 
 // Calculem els tokens vàlids (avui i ahir per si el formulari es va carregar prop de mitjanit)
@@ -116,7 +120,8 @@ if (empty($nombre) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($mensa
 }
 
 // 8. MAIL-TRAP LOCAL vs ENVIAMENT REAL
-if ($is_localhost) {
+$dev_send_real = !empty($_ENV['DEV_SEND_REAL']) && $_ENV['DEV_SEND_REAL'] === 'true';
+if ($is_localhost && !$dev_send_real) {
     // --- Mode local: guardem a un fitxer de log ---
     $logFile = dirname(__DIR__) . '/php/mail-trap.log';
     $entry = "--- " . date('Y-m-d H:i:s') . " ---\n";
@@ -150,6 +155,7 @@ if ($is_localhost) {
         // Destinataris
         $mail->setFrom($_ENV['SMTP_USER'], 'Raymel');
         $mail->addAddress($_ENV['SMTP_USER']);
+        $mail->addCC('info.vorastudio@gmail.com');
         $mail->addReplyTo($email, $nombre);
 
         // Contingut
