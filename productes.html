@@ -10,7 +10,10 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="Raymel Sweet Sensations | Dolços Premium Europeus" />
-    <meta property="og:description" content="Descobreix la nostra selecció premium de llaminadures: guixos, ossets àcids, perles de menta i molt més." />
+    <meta
+      property="og:description"
+      content="Descobreix la nostra selecció premium de llaminadures: guixos, ossets àcids, perles de menta i molt més."
+    />
     <meta property="og:url" content="https://raymel.es/productes" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ca_ES" />
@@ -36,9 +39,11 @@
     />
 
     <!-- Biblioteques GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/TextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
 
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
@@ -68,10 +73,25 @@
       <!-- Navegació Desktop -->
       <nav class="header__nav">
         <ul class="header__nav-list">
-          <li class="header__nav-item"><a href="index.php#especial" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
-          <li class="header__nav-item"><a href="productes.html" class="header__nav-link active" data-text="Productes">Productes</a></li>
-          <li class="header__nav-item"><a href="index.php#especial" class="header__nav-link" data-text="Especialitats">Especialitats</a></li>
-          <li class="header__nav-item"><a href="index.php#contact" class="header__nav-link" data-text="Contacte">Contacte</a></li>
+          <li class="header__nav-item"><a href="index.php#especial" class="header__nav-link" data-i18n="nav-nosaltres">Nosaltres</a></li>
+          <li class="header__nav-item"><a href="productes.html" class="header__nav-link active" data-i18n="nav-productes">Productes</a></li>
+          <li class="header__nav-item"><a href="index.php#contact" class="header__nav-link" data-i18n="nav-contacte">Contacte</a></li>
+          <li class="header__nav-item"><a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="header__nav-link header__nav-link--botiga" data-i18n="nav-botiga">Botiga</a></li>
+          <li class="header__nav-item">
+            <div class="lang-switcher">
+              <button class="lang-switcher__btn" onclick="this.parentElement.classList.toggle('is-open')" aria-label="Seleccionar idioma">
+                CAT
+                <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
+                  <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <ul class="lang-switcher__dropdown">
+                <li><a href="#" class="lang-switcher__option is-active" data-i18n-lang="lang-cat" data-lang="cat">CAT</a></li>
+                <li><a href="#" class="lang-switcher__option" data-i18n-lang="lang-es" data-lang="es">ES</a></li>
+                <li><a href="#" class="lang-switcher__option" data-i18n-lang="lang-en" data-lang="en">EN</a></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
 
@@ -88,10 +108,35 @@
             <a href="index.php#hero" class="header__menu-logo" onclick="document.getElementById('menu-toggle').checked = false">
               <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" width="120" height="40" />
             </a>
-            <a href="index.php#especial" class="header__menu-link" data-text="Nosaltres" onclick="document.getElementById('menu-toggle').checked = false">Nosaltres</a>
-            <a href="productes.html" class="header__menu-link active" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false">Productes</a>
-            <a href="index.php#productes" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false">Especialitats</a>
-            <a href="index.php#contact" class="header__menu-link" data-text="Contacte" onclick="document.getElementById('menu-toggle').checked = false">Contacte</a>
+            <a
+              href="index.php#especial"
+              class="header__menu-link"
+              data-i18n="nav-nosaltres"
+              onclick="document.getElementById('menu-toggle').checked = false"
+              >Nosaltres</a
+            >
+            <a
+              href="productes.html"
+              class="header__menu-link active"
+              data-i18n="nav-productes"
+              onclick="document.getElementById('menu-toggle').checked = false"
+              >Productes</a
+            >
+            <a
+              href="index.php#contact"
+              class="header__menu-link"
+              data-i18n="nav-contacte"
+              onclick="document.getElementById('menu-toggle').checked = false"
+              >Contacte</a
+            >
+            <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="header__menu-link header__menu-link--botiga" data-i18n="nav-botiga">Botiga</a>
+              <div class="lang-switcher--mobile">
+              <a href="#" class="lang-switcher__mobile-link is-active" data-i18n-lang="lang-cat" data-lang="cat" onclick="document.getElementById('menu-toggle').checked = false">CAT</a>
+              <span class="lang-switcher__mobile-sep">|</span>
+              <a href="#" class="lang-switcher__mobile-link" data-i18n-lang="lang-es" data-lang="es" onclick="document.getElementById('menu-toggle').checked = false">ES</a>
+              <span class="lang-switcher__mobile-sep">|</span>
+              <a href="#" class="lang-switcher__mobile-link" data-i18n-lang="lang-en" data-lang="en" onclick="document.getElementById('menu-toggle').checked = false">EN</a>
+            </div>
           </nav>
         </div>
       </div>
@@ -136,13 +181,13 @@
 
           <div id="Guixos" class="item-block Guixos">
             <div class="boxTitol">
-              <h2>Guixos de regalèssia</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-guixos-title">Guixos de regalèssia</h2>
+              <p class="textItem" data-i18n="prod-guixos-desc">
                 Hi ha gustos que no s'expliquen, només es recorden. El guix de regalèssia és un d'aquells. Intens, negre, real. Per als que saben el
                 que volen.
               </p>
-              <p class="textFrase">Perquè alguns plaers no necessiten justificació.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-guixos-frase">Perquè alguns plaers no necessiten justificació.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -153,13 +198,13 @@
 
           <div id="Ossets" class="item-block Ossets">
             <div class="boxTitol">
-              <h2>Ossets àcids</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-ossets-title">Ossets àcids</h2>
+              <p class="textItem" data-i18n="prod-ossets-desc">
                 Primer et fa fer cara. Després et fa repetir. Els ossets àcids tenen aquell do de convertir un moment qualsevol en una petita aventura
                 per al paladar.
               </p>
-              <p class="textFrase">Deixa't sorprendre, de nou.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-ossets-frase">Deixa't sorprendre, de nou.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -170,12 +215,12 @@
 
           <div id="Perles" class="item-block Perles">
             <div class="boxTitol">
-              <h2>Perles de menta</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-perles-title">Perles de menta</h2>
+              <p class="textItem" data-i18n="prod-perles-desc">
                 Fresques, rodones i perfectes. Les perles de menta no criden l'atenció, però quan les proves entens per què mai no en queda cap.
               </p>
-              <p class="textFrase">El petit detall que ho canvia tot.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-perles-frase">El petit detall que ho canvia tot.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -186,13 +231,13 @@
 
           <div id="Fruites" class="item-block Fruites">
             <div class="boxTitol">
-              <h2>Fruites del bosc</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-fruites-title">Fruites del bosc</h2>
+              <p class="textItem" data-i18n="prod-fruites-desc">
                 Mores, gerds, nabius... tot allò que el bosc amaga i tu trobes aquí. Un gust llarg, profund i honest. Sense artificis, només la
                 fruita.
               </p>
-              <p class="textFrase">La naturalesa en forma de capritx.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-fruites-frase">La naturalesa en forma de capritx.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -203,13 +248,13 @@
 
           <div id="Fulles" class="item-block Fulles">
             <div class="boxTitol">
-              <h2>Fulla de regalèssia</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-fulles-title">Fulla de regalèssia</h2>
+              <p class="textItem" data-i18n="prod-fulles-desc">
                 La fulla de regalèssia és un clàssic que resisteix tendències. Suau per fora, intensa per dins. Reconeixeràs el gust fins i tot amb
                 els ulls tancats.
               </p>
-              <p class="textFrase">Alguns gustos no passen de moda. Per alguna raó serà.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-fulles-frase">Alguns gustos no passen de moda. Per alguna raó serà.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -220,13 +265,13 @@
 
           <div id="Coles" class="item-block Coles">
             <div class="boxTitol">
-              <h2>Ampolles de refrescs àcids</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-coles-title">Ampolles de refrescs àcids</h2>
+              <p class="textItem" data-i18n="prod-coles-desc">
                 Les coles sempre han existit. Però no totes les coles són iguals. Les nostres tenen aquella textura que et fa trigar el doble a
                 acabar-les. I ho agraeixes.
               </p>
-              <p class="textFrase">Senzilles. Insubstituïbles.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-coles-frase">Senzilles. Insubstituïbles.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -237,13 +282,13 @@
 
           <div id="Maduixes" class="item-block Maduixes">
             <div class="boxTitol">
-              <h2>Maduixes àcides</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-maduixes-title">Maduixes àcides</h2>
+              <p class="textItem" data-i18n="prod-maduixes-desc">
                 No hi ha res com mossegar una maduixa de veritat. Les nostres no se n'allunyen gaire. Dolces, lleugerament àcides, i irresistiblement
                 vermelles.
               </p>
-              <p class="textFrase">Una cada dia no és excés. És costum.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-maduixes-frase">Una cada dia no és excés. És costum.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -254,13 +299,13 @@
 
           <div id="Pols" class="item-block Pols">
             <div class="boxTitol">
-              <h2>Guix amb pols de regalèssia</h2>
-              <p class="textItem">
+              <h2 data-i18n="prod-pols-title">Guix amb pols de regalèssia</h2>
+              <p class="textItem" data-i18n="prod-pols-desc">
                 El guix de tota la vida, però amb un secret a dins. La pols de regalèssia apareix just al final, quan ja creus que saps com acaba la
                 història. I ens encanta despistar-te.
               </p>
-              <p class="textFrase">El gust que no t'esperes. El que tornes a buscar.</p>
-              <button class="comprar">Comprar</button>
+              <p class="textFrase" data-i18n="prod-pols-frase">El gust que no t'esperes. El que tornes a buscar.</p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer"><button class="comprar" data-i18n="btn-comprar">Botiga</button></a>
             </div>
             <div class="boxTitol2">
               <div class="boxImgItems">
@@ -294,38 +339,45 @@
         <div class="footer-fixed__grid">
           <!-- Brand -->
           <div class="footer-fixed__brand">
-            <img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="auto" loading="lazy" />
+            <a href="https://www.comercialros.cat/" target="_blank" rel="noopener noreferrer"><img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="auto" loading="lazy" /></a>
             <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel" class="footer-fixed__logo" width="120" height="40" />
           </div>
 
           <!-- Enllaços -->
           <div class="footer-fixed__col">
-            <h4 class="footer-fixed__col-title">Enllaços</h4>
-            <a href="privacitat.html" class="footer-fixed__link">Política de privacitat</a>
-            <a href="legal.html" class="footer-fixed__link">Avís legal</a>
-            <a href="cookies.html" class="footer-fixed__link">Política de cookies</a>
+            <h4 class="footer-fixed__col-title" data-i18n="footer-links">Enllaços</h4>
+            <a href="privacitat.html" class="footer-fixed__link" data-i18n="footer-privacy">Política de privacitat</a>
+            <a href="legal.html" class="footer-fixed__link" data-i18n="footer-legal">Avís legal</a>
+            <a href="cookies.html" class="footer-fixed__link" data-i18n="footer-cookies">Política de cookies</a>
           </div>
 
           <!-- Xarxes -->
           <div class="footer-fixed__col">
-            <h4 class="footer-fixed__col-title">Política de cookies</h4>
-            <a href="cookies.html" class="footer-fixed__link">Més informació</a>
+            <h4 class="footer-fixed__col-title" data-i18n="footer-cookies-title">Política de cookies</h4>
+            <a href="cookies.html" class="footer-fixed__link" data-i18n="footer-more-info">Més informació</a>
             <div class="footer-fixed__socials">
-              <a href="#" class="social-link" aria-label="Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <a href="https://www.instagram.com/raymel.sweet/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
-              <a href="#" class="social-link" aria-label="Facebook">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-              </a>
+
               <a href="#" class="social-link" aria-label="WhatsApp">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.396.015 12.03a11.782 11.782 0 001.592 5.955L0 24l6.111-1.605a11.765 11.765 0 005.935 1.636h.005c6.634 0 12.032-5.396 12.035-12.03a11.81 11.81 0 00-3.486-8.484z" />
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.396.015 12.03a11.782 11.782 0 001.592 5.955L0 24l6.111-1.605a11.765 11.765 0 005.935 1.636h.005c6.634 0 12.032-5.396 12.035-12.03a11.81 11.81 0 00-3.486-8.484z"
+                  />
                 </svg>
               </a>
             </div>
@@ -333,9 +385,9 @@
         </div>
 
         <div class="footer-fixed__bottom">
-          <p>© 2026 Raymel Sweet Sensations. Tots els drets reservats.</p>
+          <p data-i18n="footer-rights">© 2026 Raymel Sweet Sensations. Tots els drets reservats.</p>
           <p class="footer-fixed__credit">
-            Creada per
+            <span data-i18n="footer-credit">Creada per</span>
             <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-fixed__credit-link"
               ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="auto" loading="lazy"
             /></a>
@@ -344,6 +396,7 @@
       </div>
     </footer>
 
+    <script src="js/i18n.js"></script>
     <script src="js/scripts.js"></script>
   </body>
 </html>

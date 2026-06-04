@@ -50,7 +50,8 @@ if (!$is_localhost) {
     $response = curl_exec($ch);
 
     if (curl_errno($ch)) {
-        echo json_encode(['ok' => false, 'error' => 'Error de conexió cURL: ' . curl_error($ch)]);
+        error_log("Raymel cURL error: " . curl_error($ch));
+        echo json_encode(['ok' => false, 'error' => 'Error de verificació de seguretat. Torna-ho a provar.']);
         curl_close($ch);
         exit;
     }
@@ -114,45 +115,64 @@ if (empty($nombre) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($mensa
     exit;
 }
 
-// 8. CONSTRUCCIÓ I ENVIAMENT AMB PHPMAILER
-$mail = new PHPMailer(true);
+// 8. MAIL-TRAP LOCAL vs ENVIAMENT REAL
+if ($is_localhost) {
+    // --- Mode local: guardem a un fitxer de log ---
+    $logFile = dirname(__DIR__) . '/php/mail-trap.log';
+    $entry = "--- " . date('Y-m-d H:i:s') . " ---\n";
+    $entry .= "Nom: $nombre\n";
+    $entry .= "Email: $email\n";
+    $entry .= "Tema: $topic\n";
+    $entry .= "Assumpte: $asunto\n";
+    $entry .= "Missatge:\n$mensaje\n";
+    $entry .= "--- Fi ---\n\n";
 
-try {
-    // Configuració del servidor
-    $mail->isSMTP();
-    $mail->Host = $_ENV['SMTP_HOST'];
-    $mail->SMTPAuth = true;
-    $mail->Username = $_ENV['SMTP_USER'];
-    $mail->Password = $_ENV['SMTP_PASS'];
-    $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = $_ENV['SMTP_PORT'];
-    $mail->CharSet = 'UTF-8';
+    file_put_contents($logFile, $entry, FILE_APPEND | LOCK_EX);
 
-    // Destinataris
-    $mail->setFrom($_ENV['SMTP_USER'], 'Vora Studio Web');
-    $mail->addAddress($_ENV['SMTP_USER']); // Ho enviem al mateix correu de contacte
-    $mail->addReplyTo($email, $nombre);
+    $_SESSION['last_submit_time'] = time();
+    echo json_encode(['ok' => true, 'message' => 'Missatge enviat correctament! (Mode local)']);
 
-    // Contingut
-    $mail->isHTML(false); // Enviament com a text pla per ara
-    $mail->Subject = 'Nou missatge des de Raymel: ' . $asunto;
+} else {
+    // --- Mode producció: enviament real amb PHPMailer ---
+    $mail = new PHPMailer(true);
 
-    $contenido = "Has rebut un nou missatge des del formulari de Raymel:\n\n";
-    $contenido .= "Nom: $nombre\n";
-    $contenido .= "Email: $email\n";
-    $contenido .= "Tema: $topic\n";
-    $contenido .= "Assumpte: $asunto\n\n";
-    $contenido .= "Missatge:\n$mensaje\n";
-    $contenido .= "\n---\nL'usuari ha acceptat expressament la política de privacitat.\n";
+    try {
+        // Configuració del servidor
+        $mail->isSMTP();
+        $mail->Host = $_ENV['SMTP_HOST'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $_ENV['SMTP_USER'];
+        $mail->Password = $_ENV['SMTP_PASS'];
+        $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = $_ENV['SMTP_PORT'];
+        $mail->CharSet = 'UTF-8';
 
-    $mail->Body = $contenido;
+        // Destinataris
+        $mail->setFrom($_ENV['SMTP_USER'], 'Raymel');
+        $mail->addAddress($_ENV['SMTP_USER']);
+        $mail->addReplyTo($email, $nombre);
 
-    $mail->send();
+        // Contingut
+        $mail->isHTML(false);
+        $mail->Subject = 'Nou missatge des de Raymel: ' . $asunto;
 
-    $_SESSION['last_submit_time'] = time(); // Actualitzem el temps de l'últim enviament
-    echo json_encode(['ok' => true, 'message' => 'Missatge enviat correctament!']);
+        $contenido = "Has rebut un nou missatge des del formulari de Raymel:\n\n";
+        $contenido .= "Nom: $nombre\n";
+        $contenido .= "Email: $email\n";
+        $contenido .= "Tema: $topic\n";
+        $contenido .= "Assumpte: $asunto\n\n";
+        $contenido .= "Missatge:\n$mensaje\n";
+        $contenido .= "\n---\nL'usuari ha acceptat expressament la política de privacitat.\n";
 
-} catch (Exception $e) {
-    echo json_encode(['ok' => false, 'error' => "El missatge no s'ha pogut enviar. Error: {$mail->ErrorInfo}"]);
+        $mail->Body = $contenido;
+        $mail->send();
+
+        $_SESSION['last_submit_time'] = time();
+        echo json_encode(['ok' => true, 'message' => 'Missatge enviat correctament!']);
+
+    } catch (Exception $e) {
+        error_log("Raymel SMTP Error: {$mail->ErrorInfo}");
+        echo json_encode(['ok' => false, 'error' => "El missatge no s'ha pogut enviar. Torna-ho a provar més tard."]);
+    }
 }
 

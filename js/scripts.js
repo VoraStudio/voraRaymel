@@ -139,15 +139,25 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: EASE,
       })
       .from(
-        ".header__nav-link",
+        ".header__nav-link:not(.header__nav-link--botiga)",
         {
           y: -20,
           opacity: 0,
           stagger: 0.3,
           duration: DURATION.NORMAL,
           ease: EASE,
+          clearProps: "transform",
         },
         "-=0.4",
+      )
+      .from(
+        ".header__nav-link--botiga",
+        {
+          opacity: 0,
+          duration: DURATION.NORMAL,
+          ease: EASE,
+        },
+        "-=0.2",
       )
 
       // -> Entrada del títol del Hero i les lletres
@@ -181,6 +191,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "-=1.5",
       )
       .from(".hero__scroll-indicator", { opacity: 0, duration: DURATION.NORMAL }, "-=0.8");
+
+    tlHero.eventCallback("onComplete", () => {
+      document.querySelector(".header")?.classList.add("header--animated");
+    });
   }
 
   // Funció per a la flotació de l'icona de testimonis
@@ -205,7 +219,15 @@ document.addEventListener("DOMContentLoaded", () => {
     tlHeader
       .from(".header", { yPercent: -100, duration: DURATION.NORMAL, ease: EASE })
       .from(".header__logo", { x: -50, opacity: 0, duration: DURATION.SLOW, ease: EASE }, "-=0.2")
-      .from(".header__nav-link", { y: -20, opacity: 0, stagger: 0.1, duration: DURATION.NORMAL, ease: EASE }, "-=0.4");
+      .from(
+        ".header__nav-link:not(.header__nav-link--botiga)",
+        { y: -20, opacity: 0, stagger: 0.1, duration: DURATION.NORMAL, ease: EASE, clearProps: "transform" },
+        "-=0.4",
+      )
+      .from(".header__nav-link--botiga", { opacity: 0, duration: DURATION.NORMAL, ease: EASE }, "-=0.2")
+      .eventCallback("onComplete", () => {
+        document.querySelector(".header")?.classList.add("header--animated");
+      });
   }
 
   // Funció per iniciar l'ona sutil de les lletres del títol del Hero
@@ -371,50 +393,11 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     });
   }
-  // .to(
-  //   ".special-bg",
-  //   {
-  //     clipPath: "circle(150% at 50% 50%)",
-  //     ease: "none",
-  //     duration: 5, // Augmentem el pes d'aquesta part perquè vagi més lent
-  //   },
-  //   "+=0.2",
-  // );
 
-  /* ----- INICI PARTÍCULES ----- */
-  // function initParticles() {
-  //   const container = document.getElementById("particles");
-  //   if (!container) return;
-
-  //   const numParticles = 30;
-  //   for (let i = 0; i < numParticles; i++) {
-  //     const p = document.createElement("div");
-  //     p.className = "global__particle";
-
-  //     const size = gsap.utils.random(2, 6);
-  //     gsap.set(p, {
-  //       x: gsap.utils.random(0, window.innerWidth),
-  //       y: gsap.utils.random(0, window.innerHeight),
-  //       width: size,
-  //       height: size,
-  //       opacity: gsap.utils.random(0.1, 0.4),
-  //     });
-
-  //     container.appendChild(p);
-
-  //     gsap.to(p, {
-  //       x: "+=" + gsap.utils.random(-100, 100),
-  //       y: "+=" + gsap.utils.random(-100, 100),
-  //       duration: gsap.utils.random(10, 20),
-  //       repeat: -1,
-  //       yoyo: true,
-  //       ease: "sine.inOut",
-  //     });
-  //   }
-  // }
   // ============================  ITEM  ======================================
   let mm = gsap.matchMedia();
   const itemsEl = document.querySelector(".items");
+  const PRODUCT_IDS = ["Guixos", "Ossets", "Perles", "Fruites", "Fulles", "Coles", "Maduixes", "Pols"];
   if (itemsEl) {
     mm.add("(min-width: 768px)", () => {
       const tlItems = gsap.timeline({
@@ -432,9 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (hash) {
         const target = document.querySelector(hash);
         if (target) {
-          // Calculem el progrés basat en el nombre d'ítems (8 ítems)
-          // Aproximadament cada ítem ocupa 1/8 de la línia de temps total (12 innerHeights)
-          const items = ["#Guixos", "#Ossets", "#Perles", "#Fruites", "#Fulles", "#Coles", "#Maduixes", "#Pols"];
+          const items = PRODUCT_IDS.map((id) => `#${id}`);
           const index = items.indexOf(hash);
           if (index !== -1) {
             const scrollAmount = (window.innerHeight * 12 * index) / (items.length - 1);
@@ -445,269 +426,59 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      let guixos = new SplitText(".Guixos h2", { type: "chars, lines", mask: "lines" });
-      let guixosText = new SplitText(".Guixos .textItem", { type: "chars, lines", mask: "lines" });
-      // ... (altres SplitText es mantenen igual)
-      let ossets = new SplitText(".Ossets h2", { type: "chars, lines", mask: "lines" });
-      let ossetsText = new SplitText(".Ossets .textItem", { type: "chars, lines", mask: "lines" });
-      let perles = new SplitText(".Perles h2", { type: "chars, lines", mask: "lines" });
-      let perlesText = new SplitText(".Perles .textItem", { type: "chars, lines", mask: "lines" });
-      let fruites = new SplitText(".Fruites h2", { type: "chars, lines", mask: "lines" });
-      let fruitesText = new SplitText(".Fruites .textItem", { type: "chars, lines", mask: "lines" });
-      let fulles = new SplitText(".Fulles h2", { type: "chars, lines", mask: "lines" });
-      let fullesText = new SplitText(".Fulles .textItem", { type: "chars, lines", mask: "lines" });
-      let coles = new SplitText(".Coles h2", { type: "chars, lines", mask: "lines" });
-      let colesText = new SplitText(".Coles .textItem", { type: "chars, lines", mask: "lines" });
-      let maduixes = new SplitText(".Maduixes h2", { type: "chars, lines", mask: "lines" });
-      let maduixesText = new SplitText(".Maduixes .textItem", { type: "chars, lines", mask: "lines" });
-      let pols = new SplitText(".Pols h2", { type: "chars, lines", mask: "lines" });
-      let polsText = new SplitText(".Pols .textItem", { type: "chars, lines", mask: "lines" });
+      const products = PRODUCT_IDS.map((id) => {
+        const h2Split = new SplitText(`.${id} h2`, { type: "chars, lines", mask: "lines" });
+        const textSplit = new SplitText(`.${id} .textItem`, { type: "chars, lines", mask: "lines" });
+        return {
+          el: `.${id}`,
+          chars: h2Split.chars,
+          textLines: textSplit.lines,
+        };
+      });
 
-      tlItems
-        // El primer element (Guixos) ja és visible per defecte, eliminem els .from inicials
-        // perquè no aparegui buit al principi del scroll.
-        .set(".Guixos", { autoAlpha: 1 })
-        .to({}, { duration: 1 })
+      tlItems.set(".Guixos", { autoAlpha: 1 }).to({}, { duration: 1 });
 
-        // Sortida Guixos ->
-        .to(guixos.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(guixosText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<")
-        .to(".Guixos .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Guixos .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Guixos .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Guixos .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
+      for (let i = 0; i < products.length - 1; i++) {
+        const curr = products[i];
+        const next = products[i + 1];
+        const textPos = i === 3 ? "<0.3" : "<";
 
-        // Entrada Ossets ->
-        .to(".Ossets", { autoAlpha: 1 }, "<")
-        .from(ossets.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          ossetsText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Ossets .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Ossets .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Ossets .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Ossets .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Guixos", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 })
-
-        // Sortida Ossets ->
-        .to(ossets.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(ossetsText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<")
-        .to(".Ossets .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Ossets .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Ossets .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Ossets .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
-
-        //Entrada Perles
-        .to(".Perles", { autoAlpha: 1 }, "<")
-        .from(perles.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          perlesText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Perles .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Perles .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Perles .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Perles .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Ossets", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 })
-
-        // Sortida Perles ->
-        .to(perles.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(perlesText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<")
-        .to(".Perles .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Perles .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Perles .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Perles .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
-
-        // Fruites ->
-        .to(".Fruites", { autoAlpha: 1 }, "<")
-        .from(fruites.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          fruitesText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Fruites .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Fruites .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Fruites .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Fruites .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Perles", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 })
-
-        // Sortida Fruites ->
-        .to(fruites.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(fruitesText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<0.3")
-        .to(".Fruites .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Fruites .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Fruites .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Fruites .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
-
-        //Entrada Fulles
-        .to(".Fulles", { autoAlpha: 1 }, "<")
-        .from(fulles.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          fullesText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Fulles .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Fulles .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Fulles .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Fulles .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Fruites", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 })
-
-        // Sortida Fulles ->
-        .to(fulles.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(fullesText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<")
-        .to(".Fulles .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Fulles .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Fulles .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Fulles .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
-
-        // Entrada Coles ->
-        .to(".Coles", { autoAlpha: 1 }, "<")
-        .from(coles.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          colesText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Coles .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Coles .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Coles .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Coles .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Fulles", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 })
-
-        // Sortida Coles ->
-        .to(coles.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(colesText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<")
-        .to(".Coles .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Coles .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Coles .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Coles .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
-
-        // Entrada Maduixes ->
-        .to(".Maduixes", { autoAlpha: 1 }, "<")
-        .from(maduixes.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          maduixesText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Maduixes .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Maduixes .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Maduixes .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Maduixes .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Coles", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 })
-
-        // Sortida Maduixes ->
-        .to(maduixes.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
-        .to(maduixesText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, "<")
-        .to(".Maduixes .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Maduixes .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-        .to(".Maduixes .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
-        .to(".Maduixes .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
-
-        // Entrada Pols ->
-        .to(".Pols", { autoAlpha: 1 }, "<")
-        .from(pols.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
-        .from(
-          polsText.lines,
-          {
-            duration: 1.5,
-            rotationY: -110,
-            x: -100,
-            autoAlpha: 0,
-            transformOrigin: "left center -100",
-            stagger: 0.15,
-            ease: "power2.out",
-            force3D: true,
-          },
-          "<0.3",
-        )
-        .from(".Pols .textFrase", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Pols .comprar", { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
-        .from(".Pols .boxImgItems", { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
-        .from(".Pols .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
-        .to(".Maduixes", { autoAlpha: 0 }, ">")
-        .to({}, { duration: 1 });
-
-      /* Sortida Pols ->
-      .to(pols.chars,{ yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha:0})
-      .to(polsText.lines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out",  rotationY: 110, x: 100,}, "<")
-      .to(".Pols .textFrase", { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
-      .to(".Pols .comprar", { autoAlpha: 0, y: -50, ease: "power2.in" },"<")
-      .to(".Pols .boxImgItems", { autoAlpha: 0, scale: 0, ease: "power2.in", },"<" )
-      .to(".Pols .boxImgItems img", { rotationY: 360, autoAlpha: 0, scale: 0.2},"<")
-      .to(".Pols", { autoAlpha: 0 }, ">")
-      */
+        tlItems
+          .to(curr.chars, { yPercent: -100, stagger: 0.02, duration: 0.3, autoAlpha: 0 })
+          .to(curr.textLines, { stagger: 0.15, autoAlpha: 0, ease: "power2.out", rotationY: 110, x: 100 }, textPos)
+          .to(`${curr.el} .textFrase`, { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
+          .to(`${curr.el} .comprar`, { autoAlpha: 0, y: -50, ease: "power2.in" }, "<")
+          .to(`${curr.el} .boxImgItems`, { autoAlpha: 0, scale: 0, ease: "power2.in" }, "<")
+          .to(`${curr.el} .boxImgItems img`, { rotationY: 360, autoAlpha: 0, scale: 0.2 }, "<")
+          .to(next.el, { autoAlpha: 1 }, "<")
+          .from(next.chars, { yPercent: 100, stagger: 0.02, duration: 0.3 }, "<")
+          .from(
+            next.textLines,
+            {
+              duration: 1.5,
+              rotationY: -110,
+              x: -100,
+              autoAlpha: 0,
+              transformOrigin: "left center -100",
+              stagger: 0.15,
+              ease: "power2.out",
+              force3D: true,
+            },
+            "<0.3",
+          )
+          .from(`${next.el} .textFrase`, { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
+          .from(`${next.el} .comprar`, { autoAlpha: 0, y: 50, ease: "power2.in" }, "<0.1")
+          .from(`${next.el} .boxImgItems`, { autoAlpha: 0, scale: 0, duration: 1, ease: "power2.in" }, "<-0.5")
+          .from(`${next.el} .boxImgItems img`, { rotationY: 360, autoAlpha: 0, scale: 0.2, duration: 2 }, "<0.2")
+          .to(curr.el, { autoAlpha: 0 }, ">")
+          .to({}, { duration: 1 });
+      }
     });
 
     //Per mobil ->
     mm.add("(max-width: 767px)", () => {
       let currentLayer = 1;
-      const layers = [".Guixos", ".Ossets", ".Perles", ".Fruites", ".Fulles", ".Coles", ".Maduixes", ".Pols"];
+      const layers = PRODUCT_IDS.map((id) => `.${id}`);
       const nextBtn = document.getElementById("next-item");
       const prevBtn = document.getElementById("prev-item");
 
@@ -795,7 +566,7 @@ document.addEventListener("DOMContentLoaded", () => {
           delay: 1,
         },
         "-=0.2", // Comença una mica abans que acabin d'obrir-se
-      )
+      );
   }
 
   // ========================= FORM LOGIC ========================
@@ -986,13 +757,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Subtitle and right side start hidden
-    gsap.set(
-      ".contact-info__subtitle, .contact-info__right, .contact-info__desc, .contact-info__contact-item",
-      {
-        opacity: 0,
-        y: 30,
-      },
-    );
+    gsap.set(".contact-info__subtitle, .contact-info__right, .contact-info__desc, .contact-info__contact-item", {
+      opacity: 0,
+      y: 30,
+    });
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -1150,4 +918,12 @@ document.addEventListener("DOMContentLoaded", () => {
       cookieBanner.classList.remove("is-visible");
     });
   }
+
+  // Tancar selector d'idioma en fer clic fora
+  document.addEventListener("click", (e) => {
+    const langSwitcher = document.querySelector(".lang-switcher");
+    if (langSwitcher && !langSwitcher.contains(e.target)) {
+      langSwitcher.classList.remove("is-open");
+    }
+  });
 });

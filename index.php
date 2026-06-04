@@ -71,13 +71,16 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         "@type": "Organization",
         "name": "Raymel Sweet Sensations",
         "url": "https://raymel.es",
-        "email": "marketing@raymel.cat",
+        "email": "oficina@comercialros.cat",
         "description": "Seleccionadors de llaminadures premium d'Europa.",
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "Barcelona",
+          "streetAddress": "Carretera C-63, Nau 12-14",
+          "addressLocality": "Sils",
+          "postalCode": "17410",
           "addressCountry": "ES"
-        }
+        },
+        "telephone": "+34 972 98 03 08"
       }
     </script>
   </head>
@@ -92,12 +95,25 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
       <!-- Navegació Desktop -->
       <nav class="header__nav">
         <ul class="header__nav-list">
-          <li class="header__nav-item"><a href="#especial" id="nav-nosaltres" class="header__nav-link" data-text="Nosaltres">Nosaltres</a></li>
-          <li class="header__nav-item"><a href="productes.html" id="nav-productes" class="header__nav-link" data-text="Productes">Productes</a></li>
+          <li class="header__nav-item"><a href="#especial" id="nav-nosaltres" class="header__nav-link" data-i18n="nav-nosaltres" data-text="Nosaltres">Nosaltres</a></li>
+          <li class="header__nav-item"><a href="productes.html" id="nav-productes" class="header__nav-link" data-i18n="nav-productes" data-text="Productes">Productes</a></li>
+          <li class="header__nav-item"><a href="#contact" id="nav-contacte" class="header__nav-link" data-i18n="nav-contacte" data-text="Contacte">Contacte</a></li>
+          <li class="header__nav-item"><a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="header__nav-link header__nav-link--botiga" data-i18n="nav-botiga" data-text="Botiga">Botiga</a></li>
           <li class="header__nav-item">
-            <a href="#productes" id="nav-especialitats" class="header__nav-link" data-text="Especialitats">Especialitats</a>
+            <div class="lang-switcher">
+              <button class="lang-switcher__btn" onclick="this.parentElement.classList.toggle('is-open')" aria-label="Seleccionar idioma">
+                CAT
+                <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
+                  <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <ul class="lang-switcher__dropdown">
+                <li><a href="#" class="lang-switcher__option is-active" data-i18n-lang="lang-cat" data-lang="cat">CAT</a></li>
+                <li><a href="#" class="lang-switcher__option" data-i18n-lang="lang-es" data-lang="es">ES</a></li>
+                <li><a href="#" class="lang-switcher__option" data-i18n-lang="lang-en" data-lang="en">EN</a></li>
+              </ul>
+            </div>
           </li>
-          <li class="header__nav-item"><a href="#contact" id="nav-contacte" class="header__nav-link" data-text="Contacte">Contacte</a></li>
         </ul>
       </nav>
 
@@ -111,21 +127,20 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         </label>
         <div class="header__menu-overlay">
           <nav class="header__menu-nav">
-            <a href="#hero" class="header__menu-logo" onclick="document.getElementById('menu-toggle').checked = false">
+            <a href="#hero" class="header__menu-logo">
               <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel Logo" width="120" height="40" />
             </a>
-            <a href="#especial" class="header__menu-link" data-text="Nosaltres" onclick="document.getElementById('menu-toggle').checked = false"
-              >Nosaltres</a
-            >
-            <a href="productes.html" class="header__menu-link" data-text="Productes" onclick="document.getElementById('menu-toggle').checked = false"
-              >Productes</a
-            >
-            <a href="#productes" class="header__menu-link" data-text="Especialitats" onclick="document.getElementById('menu-toggle').checked = false"
-              >Especialitats</a
-            >
-            <a href="#contact" class="header__menu-link" data-text="Contacte" onclick="document.getElementById('menu-toggle').checked = false"
-              >Contacte</a
-            >
+            <a href="#especial" class="header__menu-link" data-i18n="nav-nosaltres" data-text="Nosaltres">Nosaltres</a>
+            <a href="productes.html" class="header__menu-link" data-i18n="nav-productes" data-text="Productes">Productes</a>
+            <a href="#contact" class="header__menu-link" data-i18n="nav-contacte" data-text="Contacte">Contacte</a>
+            <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="header__menu-link header__menu-link--botiga" data-i18n="nav-botiga" data-text="Botiga">Botiga</a>
+            <div class="lang-switcher--mobile">
+              <a href="#" class="lang-switcher__mobile-link is-active" data-i18n-lang="lang-cat" data-lang="cat">CAT</a>
+              <span class="lang-switcher__mobile-sep">|</span>
+              <a href="#" class="lang-switcher__mobile-link" data-i18n-lang="lang-es" data-lang="es">ES</a>
+              <span class="lang-switcher__mobile-sep">|</span>
+              <a href="#" class="lang-switcher__mobile-link" data-i18n-lang="lang-en" data-lang="en">EN</a>
+            </div>
           </nav>
         </div>
       </div>
@@ -154,7 +169,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         </div>
 
         <div class="hero__scroll-indicator">
-          <span>Scroll per explorar</span>
+          <span data-i18n="hero-scroll">Scroll per explorar</span>
           <div class="hero__scroll-line"></div>
         </div>
       </section>
@@ -237,10 +252,10 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
       <section class="especial" id="especial">
         <div class="especial-container">
           <div class="special-col1">
-            <h2 class="especial__title">Regala't un <br />moment de plaer</h2>
+            <h2 class="especial__title" data-i18n="especial-title" data-i18n-html="true">Regala't un <br />moment de plaer</h2>
             <div class="especial-text">
-              <h2 class="especial__text">Perquè créixer no és renunciar al dolç</h2>
-              <p class="especial__p">
+              <h2 class="especial__text" data-i18n="especial-subtitle">Perquè créixer no és renunciar al dolç</h2>
+              <p class="especial__p" data-i18n="especial-p1" data-i18n-html="true">
                 A Raymel recorrem Europa a la recerca dels millors gustos. No qualsevol gust, sinó aquell que et fa tancar els ulls, que et torna a
                 aquell calaix de casa l'àvia, que et fa fer un "mmm" sense demanar permís. Som seleccionadors de plaers petits, d'aquells que no
                 ocupen lloc pero que omplen molt. Perquè en un món que no para, aturar-se per una llaminadura és gairebé un acte revolucionari.
@@ -248,6 +263,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
                 Les nostres xuxes no són un snack, són una declaració d'intencions. La de qui sap que mereix quelcom bo, ara, sense esperar l'ocasió
                 especial.
               </p>
+              <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="especial__btn" data-i18n="btn-botiga">Botiga</a>
             </div>
           </div>
           <div class="morph-container">
@@ -326,24 +342,24 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
               <img src="img/icones svg/icona 1.svg" alt="Raymel Shape" class="testimonials__shape-icon" />
               <div class="testimonials__slider">
                 <div class="testimonial-card">
-                  <p class="testimonial-quote">"Les millors llaminadures que he provat mai! Un plaer absolut en cada mossegada, repetiré segur."</p>
+                  <p class="testimonial-quote" data-i18n="testimonial-quote-1">"Les millors llaminadures que he provat mai! Un plaer absolut en cada mossegada, repetiré segur."</p>
                   <div class="testimonial-meta">
                     <span class="testimonial-author">Maria Garcia</span>
-                    <span class="testimonial-date">Maig 2024</span>
+                    <span class="testimonial-date" data-i18n="testimonial-date-1">Maig 2024</span>
                   </div>
                 </div>
                 <div class="testimonial-card">
-                  <p class="testimonial-quote">"Raymel sempre sorprèn amb els seus gustos únics. Els guixos de regalèssia són d'un altre món."</p>
+                  <p class="testimonial-quote" data-i18n="testimonial-quote-2">"Raymel sempre sorprèn amb els seus gustos únics. Els guixos de regalèssia són d'un altre món."</p>
                   <div class="testimonial-meta">
                     <span class="testimonial-author">Joan Beltran</span>
-                    <span class="testimonial-date">Abril 2024</span>
+                    <span class="testimonial-date" data-i18n="testimonial-date-2">Abril 2024</span>
                   </div>
                 </div>
                 <div class="testimonial-card">
-                  <p class="testimonial-quote">"Un moment de dolçor necessari en un dia atrafegat. Qualitat premium i presentació impecable."</p>
+                  <p class="testimonial-quote" data-i18n="testimonial-quote-3">"Un moment de dolçor necessari en un dia atrafegat. Qualitat premium i presentació impecable."</p>
                   <div class="testimonial-meta">
                     <span class="testimonial-author">Carla Miró</span>
-                    <span class="testimonial-date">Març 2024</span>
+                    <span class="testimonial-date" data-i18n="testimonial-date-3">Març 2024</span>
                   </div>
                 </div>
               </div>
@@ -365,7 +381,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
       <h1>Parlem de qui és el plaer?</h1>
       <p>Want to share a story that’s not fascinating at all, or a fact absolutely no one asked for?</p>
       <p>Email: <br> <a href="mailto:[EMAIL_ADDRESS]">hola@unsitiogenial.es.</a></p>
-      <p>Social: <br> <a href="https://www.instagram.com/raymel.regalessia/">@raymel.regalessia</a></p>
+      <p>Social: <br> <a href="https://www.instagram.com/raymel.sweet/">@raymel.regalessia</a></p>
     </div>
     <div class="boxParlem2">
       <a href="#header"><img src="img/icones svg/raymel_logo blanc.svg" alt="Logo Raymel" width="3000" height="2250"  srcset=""></a>
@@ -387,31 +403,32 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
                 <span class="title-line__text">SENSATIONS</span>
               </span>
             </h2>
-            <p class="contact-info__subtitle animate-item">Dolços premium d'arreu d'Europa per a paladars exigents.</p>
+            <p class="contact-info__subtitle animate-item" data-i18n="contact-subtitle">Dolços premium d'arreu d'Europa per a paladars exigents.</p>
           </div>
 
           <div class="contact-info__right animate-item">
-            <p class="contact-info__desc">
+            <p class="contact-info__desc" data-i18n="contact-desc">
               Som seleccionadors de plaers petits, d'aquells que no ocupen lloc pero que omplen molt. Les nostres llaminadures son una declaracio
               d'intencions.
             </p>
             <div class="contact-info__contact-list">
-              <a href="mailto:marketing@raymel.cat" class="contact-info__contact-item">
+              <a href="mailto:oficina@comercialros.cat" class="contact-info__contact-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <span>marketing@raymel.cat</span>
+                <span>oficina@comercialros.cat</span>
               </a>
-              <a href="#" class="contact-info__contact-item">
+              <a href="https://www.instagram.com/raymel.sweet/" target="_blank" rel="noopener noreferrer" class="contact-info__contact-item">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
-                <span>@raymel.regalessia</span>
+                <span>@raymel.sweet</span>
               </a>
             </div>
+            <a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="contact-info__btn" data-i18n="btn-botiga">Botiga</a>
           </div>
         </div>
 
@@ -426,42 +443,35 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
           <div class="contact-form__grid">
             <!-- Left: Info -->
             <div class="contact-form__info">
-              <h3 class="contact-form__title">Envia'ns un missatge</h3>
-              <p class="contact-form__subtitle">Farem realitat la teva idea mes dolça.</p>
+              <h3 class="contact-form__title" data-i18n="form-title">Envia'ns un missatge</h3>
+              <p class="contact-form__subtitle" data-i18n="form-subtitle">Farem realitat la teva idea mes dolça.</p>
               <div class="contact-form__details">
                 <div class="contact-form__detail">
-                  <span class="contact-form__detail-label">Email</span>
-                  <a href="mailto:marketing@raymel.cat" class="contact-form__detail-value">marketing@raymel.cat</a>
+                  <span class="contact-form__detail-label" data-i18n="form-label-email">Email</span>
+                  <a href="mailto:oficina@comercialros.cat" class="contact-form__detail-value">oficina@comercialros.cat</a>
                 </div>
                 <div class="contact-form__detail">
-                  <span class="contact-form__detail-label">Tel</span>
-                  <span class="contact-form__detail-value">+34 600 000 000</span>
+                  <span class="contact-form__detail-label" data-i18n="form-label-tel">Tel</span>
+                  <span class="contact-form__detail-value">972 98 03 08</span>
                 </div>
                 <div class="contact-form__detail">
-                  <span class="contact-form__detail-label">Adresa</span>
-                  <span class="contact-form__detail-value">Carrer de la Dolçor, 123<br />08001 Barcelona</span>
+                  <span class="contact-form__detail-label" data-i18n="form-label-address">Adresa</span>
+                  <span class="contact-form__detail-value" data-i18n="form-address-val" data-i18n-html="true">Carretera C-63, Nau 12-14<br />17410 Sils</span>
                 </div>
               </div>
               <div class="contact-form__social">
-                <span class="contact-form__social-label">Segueix-nos</span>
+                <span class="contact-form__social-label" data-i18n="form-social">Segueix-nos</span>
                 <div class="contact-form__social-icons">
-                  <a href="#" class="contact-form__social-link" aria-label="Instagram">
+                  <a href="https://www.instagram.com/raymel.sweet/" target="_blank" rel="noopener noreferrer" class="contact-form__social-link" aria-label="Instagram">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                       <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                     </svg>
                   </a>
-                  <a href="#" class="contact-form__social-link" aria-label="Facebook">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                    </svg>
-                  </a>
-                  <a href="#" class="contact-form__social-link" aria-label="LinkedIn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                      <rect x="2" y="9" width="4" height="12" />
-                      <circle cx="4" cy="4" r="2" />
+                  <a href="#" class="contact-form__social-link" aria-label="WhatsApp">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.414 0 .018 5.396.015 12.03a11.782 11.782 0 001.592 5.955L0 24l6.111-1.605a11.765 11.765 0 005.935 1.636h.005c6.634 0 12.032-5.396 12.035-12.03a11.81 11.81 0 00-3.486-8.484z" />
                     </svg>
                   </a>
                 </div>
@@ -472,8 +482,8 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
             <div class="contact-form__form-wrapper">
               <form class="contact-form__form" id="contact-form-element" action="javascript:void(0);" method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>" />
-                <div style="display: none">
-                  <input type="text" name="honeypot" value="" />
+                <div class="contact-form__honeypot" aria-hidden="true">
+                  <input type="text" name="honeypot" value="" tabindex="-1" autocomplete="off" />
                 </div>
                 <input type="hidden" name="recaptcha_response" id="recaptcha_response" />
                 <input type="hidden" name="topic" value="Contacte web" />
@@ -481,27 +491,30 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
 
                 <div class="contact-form__row">
                   <div class="contact-form__group">
-                    <label for="name" class="contact-form__label">Nom</label>
-                    <input type="text" id="name" name="name" class="contact-form__input" placeholder="El teu nom" required />
+                    <label for="name" class="contact-form__label" data-i18n="form-name">Nom</label>
+                    <input type="text" id="name" name="name" class="contact-form__input" placeholder="El teu nom" data-i18n-placeholder="form-name-placeholder" required />
                   </div>
                   <div class="contact-form__group">
-                    <label for="email" class="contact-form__label">Email</label>
-                    <input type="email" id="email" name="email" class="contact-form__input" placeholder="El teu email" required />
+                    <label for="email" class="contact-form__label" data-i18n="form-email">Email</label>
+                    <input type="email" id="email" name="email" class="contact-form__input" placeholder="El teu email" data-i18n-placeholder="form-email-placeholder" required />
                   </div>
                 </div>
 
                 <div class="contact-form__group">
-                  <label for="message" class="contact-form__label">Missatge</label>
-                  <textarea id="message" name="message" class="contact-form__textarea" placeholder="Escriu el teu missatge..." required></textarea>
+                  <label for="message" class="contact-form__label" data-i18n="form-message">Missatge</label>
+                  <textarea id="message" name="message" class="contact-form__textarea" placeholder="Escriu el teu missatge..." data-i18n-placeholder="form-message-placeholder" required></textarea>
                 </div>
 
                 <div class="contact-form__footer">
                   <div class="contact-form__privacy">
                     <input type="checkbox" id="privacy" name="privacy" class="contact-form__checkbox" required />
-                    <label for="privacy" class="contact-form__privacy-label">Accepto les <a href="privacitat.html">condicions</a></label>
+                    <label for="privacy" class="contact-form__privacy-label">
+                      <span data-i18n="form-privacy">Accepto les</span>
+                      <a href="privacitat.html" data-i18n="form-privacy-link">condicions</a>
+                    </label>
                   </div>
                   <button type="submit" class="contact-form__btn">
-                    <span>Enviar</span>
+                    <span data-i18n="form-submit">Enviar</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <line x1="5" y1="12" x2="19" y2="12" />
                       <polyline points="12 5 19 12 12 19" />
@@ -519,14 +532,14 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
     <div class="cookie-banner" id="cookie-banner">
       <div class="cookie-banner__inner">
         <div class="cookie-banner__content">
-          <p class="cookie-banner__text">
+          <p class="cookie-banner__text" data-i18n="cookie-text">
             Utilitzem cookies pròpies i de tercers per millorar la teva experiència. Si continues navegant, acceptes l'ús de cookies.
           </p>
-          <a href="cookies.html" class="cookie-banner__link">Més informació</a>
+          <a href="cookies.html" class="cookie-banner__link" data-i18n="cookie-more">Més informació</a>
         </div>
         <div class="cookie-banner__actions">
-          <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookie-accept">Acceptar totes</button>
-          <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookie-reject">Rebutjar</button>
+          <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookie-accept" data-i18n="cookie-accept">Acceptar totes</button>
+          <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookie-reject" data-i18n="cookie-reject">Rebutjar</button>
         </div>
       </div>
     </div>
@@ -537,24 +550,24 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         <div class="footer-fixed__grid">
           <!-- Brand -->
           <div class="footer-fixed__brand">
-            <img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="auto" loading="lazy" />
+            <a href="https://www.comercialros.cat/" target="_blank" rel="noopener noreferrer"><img src="img/comercial_logo.png" alt="Raymel Comercial" class="footer-fixed__commercial" width="120" height="auto" loading="lazy" /></a>
             <img src="img/icones svg/raymel_logo blanc.svg" alt="Raymel" class="footer-fixed__logo" width="120" height="40" />
           </div>
 
           <!-- Enllaços -->
           <div class="footer-fixed__col">
-            <h4 class="footer-fixed__col-title">Enllaços</h4>
-            <a href="privacitat.html" class="footer-fixed__link">Política de privacitat</a>
-            <a href="legal.html" class="footer-fixed__link">Avís legal</a>
-            <a href="cookies.html" class="footer-fixed__link">Política de cookies</a>
+            <h4 class="footer-fixed__col-title" data-i18n="footer-links">Enllaços</h4>
+            <a href="privacitat.html" class="footer-fixed__link" data-i18n="footer-privacy">Política de privacitat</a>
+            <a href="legal.html" class="footer-fixed__link" data-i18n="footer-legal">Avís legal</a>
+            <a href="cookies.html" class="footer-fixed__link" data-i18n="footer-cookies">Política de cookies</a>
           </div>
 
           <!-- Cookies -->
           <div class="footer-fixed__col">
-            <h4 class="footer-fixed__col-title">Política de cookies</h4>
-            <a href="cookies.html" class="footer-fixed__link">Més informació</a>
+            <h4 class="footer-fixed__col-title" data-i18n="footer-cookies-title">Política de cookies</h4>
+            <a href="cookies.html" class="footer-fixed__link" data-i18n="footer-more-info">Més informació</a>
             <div class="footer-fixed__socials">
-              <a href="#" class="social-link" aria-label="Instagram">
+              <a href="https://www.instagram.com/raymel.sweet/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
                 <svg
                   width="18"
                   height="18"
@@ -570,20 +583,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
-              <a href="#" class="social-link" aria-label="Facebook">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-              </a>
+
               <a href="#" class="social-link" aria-label="WhatsApp">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                   <path
@@ -596,9 +596,9 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
         </div>
 
         <div class="footer-fixed__bottom">
-          <p>© 2026 Raymel Sweet Sensations. Tots els drets reservats.</p>
+          <p data-i18n="footer-rights">© 2026 Raymel Sweet Sensations. Tots els drets reservats.</p>
           <p class="footer-fixed__credit">
-            Creada per
+            <span data-i18n="footer-credit">Creada per</span>
             <a href="https://vorastudio.cat" target="_blank" rel="noopener noreferrer" class="footer-fixed__credit-link"
               ><img src="img/logoVora.png" alt="VoraStudio" class="footer-fixed__vora-logo" width="80" height="auto" loading="lazy"
             /></a>
@@ -610,6 +610,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
     <script>
       window.RECAPTCHA_SITE_KEY = "<?php echo $_ENV['RECAPTCHA_SITE_KEY']; ?>";
     </script>
+    <script src="js/i18n.js"></script>
     <script src="js/scripts.js"></script>
   </body>
 </html>
