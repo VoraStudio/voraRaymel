@@ -1,0 +1,47 @@
+{
+	"Comentari de Secció Català": {
+		"scope": "css,scss,less",
+		"prefix": "seccioca",
+		"body": [
+			"/* ----- INICI SECCIÓ ${1:NOM} ----- */"
+		],
+		"description": "Crea un comentari de separació de secció en català"
+	},
+	"Fluid Typography": {
+		"scope": "css,scss,less",
+		"prefix": "fclamp",
+		"body": [
+			"font-size: clamp(${1:2rem}, calc(${2:5vw} + ${3:1rem}), ${4:5rem});"
+		],
+		"description": "Crea un font-size fluid amb clamp i calc"
+	},
+	"GSAP ScrollTrigger": {
+		"scope": "javascript,typescript",
+		"prefix": "gscroll",
+		"body": [
+			"gsap.to(\"${1:.selector}\", {",
+			"\t${2:y: -50},",
+			"\tscrollTrigger: {",
+			"\t\ttrigger: \"${3:.trigger}\",",
+			"\t\tstart: \"top 80%\",",
+			"\t\tend: \"bottom 20%\",",
+			"\t\tscrub: 1",
+			"\t}",
+			"});"
+		],
+		"description": "Estructura bàsica de GSAP ScrollTrigger"
+	},
+	"New Webs Section": {
+		"scope": "html",
+		"prefix": "sectionca",
+		"body": [
+			"<!-- ----- INICI SECCIÓ ${1:NOM} ----- -->",
+			"<section class=\"${2:section-class}\" id=\"${3:id}\">",
+			"\t<div class=\"container\">",
+			"\t\t$0",
+			"\t</div>",
+			"</section>"
+		],
+		"description": "Crea una secció amb el format de comentaris del projecte"
+	}
+}

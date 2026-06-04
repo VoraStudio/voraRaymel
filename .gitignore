@@ -1,0 +1,14 @@
+# Dependències PHP
+vendor/
+composer.lock
+
+# Entorn i secrets
+.env
+
+# Node (si n'hi ha)
+node_modules/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
