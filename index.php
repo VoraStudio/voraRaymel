@@ -101,7 +101,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
           <li class="header__nav-item"><a href="#especial" id="nav-nosaltres" class="header__nav-link" data-i18n="nav-nosaltres" data-text="Nosaltres">Nosaltres</a></li>
           <li class="header__nav-item"><a href="productes.html" id="nav-productes" class="header__nav-link" data-i18n="nav-productes" data-text="Productes">Productes</a></li>
           <li class="header__nav-item"><a href="#contact" id="nav-contacte" class="header__nav-link" data-i18n="nav-contacte" data-text="Contacte">Contacte</a></li>
-          <li class="header__nav-item"><a href="https://www.comercialros.cat/shop/category/raymel-3" target="_blank" rel="noopener noreferrer" class="header__nav-link header__nav-link--botiga" data-i18n="nav-botiga" data-text="Botiga">Botiga</a></li>
+          <li class="header__nav-item"><a href="https://www.comercialros.cat/r/raymel2" target="_blank" rel="noopener noreferrer" class="header__nav-link header__nav-link--botiga" data-i18n="nav-botiga" data-text="Botiga">Botiga</a></li>
           <li class="header__nav-item">
             <div class="lang-switcher">
               <button class="lang-switcher__btn" onclick="this.parentElement.classList.toggle('is-open')" aria-label="Seleccionar idioma">
@@ -591,7 +591,7 @@ $csrf_token = hash_hmac('sha256', date('Y-m-d'), $_ENV['CSRF_TOKEN_SECRET']); ?>
     <script>
       window.RECAPTCHA_SITE_KEY = "<?php echo $_ENV['RECAPTCHA_SITE_KEY']; ?>";
     </script>
-    <script src="js/i18n.js"></script>
-    <script src="js/scripts.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/scripts.js"></script>
   </body>
 </html>

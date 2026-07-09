@@ -1,0 +1,3 @@
+<FilesMatch "\.env$|mail-trap\.log$">
+  Require all denied
+</FilesMatch>

@@ -122,18 +122,7 @@ if (empty($nombre) || !filter_var($email, FILTER_VALIDATE_EMAIL) || empty($mensa
 // 8. MAIL-TRAP LOCAL vs ENVIAMENT REAL
 $dev_send_real = !empty($_ENV['DEV_SEND_REAL']) && $_ENV['DEV_SEND_REAL'] === 'true';
 if ($is_localhost && !$dev_send_real) {
-    // --- Mode local: guardem a un fitxer de log ---
-    $logFile = dirname(__DIR__) . '/php/mail-trap.log';
-    $entry = "--- " . date('Y-m-d H:i:s') . " ---\n";
-    $entry .= "Nom: $nombre\n";
-    $entry .= "Email: $email\n";
-    $entry .= "Tema: $topic\n";
-    $entry .= "Assumpte: $asunto\n";
-    $entry .= "Missatge:\n$mensaje\n";
-    $entry .= "--- Fi ---\n\n";
-
-    file_put_contents($logFile, $entry, FILE_APPEND | LOCK_EX);
-
+    // --- Mode local: respostem ok sense desar res ---
     $_SESSION['last_submit_time'] = time();
     echo json_encode(['ok' => true, 'message' => 'Missatge enviat correctament! (Mode local)']);
 

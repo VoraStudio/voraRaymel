@@ -624,9 +624,10 @@ img {
   letter-spacing: -0.04em;
   line-height: 0.9;
   text-align: center;
-  color: var(--color-secondary);
+  color: var(--fons-violeta); /* Canviat per evitar que es quedi tot blanc al revertir l'animació */
   /* text-shadow: 0 4px 20px rgba(57, 40, 108, 0.4); Eliminat efecte difuminat */
   will-change: transform, opacity, filter;
+  transform-style: preserve-3d; /* Evita que el navegador aplani els caràcters en 3D provocant duplicats o errors */
   padding: 1rem;
   position: relative;
   z-index: 2;
@@ -637,17 +638,18 @@ img {
   /* text-transform: uppercase; */
 }
 
-.hero__title div div,
 .hero__title .split-char {
-  /* background: linear-gradient(180deg, var(--fons-violeta) var(--porcenatge-titol-Hero), var(--fons-clar) var(--porcenatge2-titol-Hero)); */
-  background-color: var(--fons-violeta);
-  background-size: 200% auto;
+  display: inline-block;
+  color: var(--fons-violeta);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  /* Si en el futur vols fer servir un degradat de text: */
+  /*
+  background: linear-gradient(180deg, var(--fons-violeta) var(--porcenatge-titol-Hero), var(--fons-clar) var(--porcenatge2-titol-Hero));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
-  display: inline-block;
-  transform-style: preserve-3d; /* Manté el caràcter en l'espai 3D */
-  backface-visibility: hidden;
+  */
 }
 
 .hero__visual {
@@ -662,6 +664,7 @@ img {
   pointer-events: none;
   z-index: 100;
   overflow: visible;
+  will-change: transform, filter; /* Optimiza para ScrollTrigger parallax y desenfoque */
 }
 
 .hero__img-wrapper {
@@ -671,6 +674,7 @@ img {
   align-items: center;
   justify-content: center;
   overflow: visible;
+  will-change: transform, opacity; /* Optimiza para la animación de entrada */
 }
 
 .hero__img {
