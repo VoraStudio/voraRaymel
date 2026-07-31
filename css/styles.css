@@ -3158,3 +3158,11 @@ a.contact-form__detail-value:hover {
     font-size: clamp(1.2rem, calc(4vw + 0.5rem), 1.6rem);
   }
 }
+
+/* Ocultar/Transparente Google reCAPTCHA Badge */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  background-color: transparent !important;
+  pointer-events: none !important;
+}
